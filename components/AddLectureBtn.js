@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, TouchableHighlight } from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import { colors } from '../styles/colors';
-import addCircle from '../assets/img/addCircle.png'
+import addCircle from '../assets/img/addCircle.png';
 
 export default class AddLectureBtn extends Component {
     
     handlePress(e) {
+        // this.props.navigation.navigate('Search'); <- Handle later
         alert('Pressed');
     }
     

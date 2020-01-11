@@ -5,10 +5,10 @@ import AddLectureBtn from '../components/AddLectureBtn'
 import HomeLecture from '../components/HomeLecture'
 import { colors } from '../styles/colors';
 
-export default class Home extends Component {
+export default class Home extends Component {    
     render() {
         return (
-            <View style={{ flex:1 }}>
+            <View style={{ flex: 1 }}>
                 <Background></Background>
 
                 <ScrollView style={styles.container}>
@@ -49,7 +49,6 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.extraLightPurple,
-        // height: '80%',
         padding: 11
     },
     
