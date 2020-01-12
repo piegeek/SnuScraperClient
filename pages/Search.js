@@ -8,10 +8,13 @@ import TextSearch from '../components/TextSearch'
 import SearchLecture from '../components/SearchLecture'
 
 export default class Search extends Component {
+    static navigationOptions = {
+        title: '강좌 검색'
+    };
+    
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <Background></Background>
                 <ScrollView style={styles.container}>
                     <View style={styles.textSearchContainer}>
                         <TextSearch></TextSearch>
