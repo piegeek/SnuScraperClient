@@ -21,7 +21,7 @@ export default class SearchLecture extends Component {
                     <Button color={colors.yellow} text='강좌 상세 정보' imageUri={chevronRight}></Button>
                 </View>
                 <View style={styles.columnRight}>
-                    <TouchableHighlight style={styles.addButton} onPress={this.handlePress}>
+                    <TouchableHighlight style={styles.addButton} onPress={this.handlePress.bind(this)}>
                         <Icon name='plus' size={26} style={styles.addIcon}></Icon>
                     </TouchableHighlight>
                 </View>
