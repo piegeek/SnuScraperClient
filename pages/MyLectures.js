@@ -2,13 +2,67 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, Image, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import Background from '../components/Background'
 import AddLectureBtn from '../components/AddLectureBtn'
 import HomeLecture from '../components/HomeLecture'
 
 import { colors } from '../styles/colors';
 
-export default class MyLectures extends Component {    
+export default class MyLectures extends Component {            
+    constructor(props) {
+        super(props);
+        this.state = {
+            lectures: [] 
+        };
+    }
+
+    componentDidMount() {
+        /* 
+        Add event listener to navigation prop so that lectures state is updated
+        every time a lecture is added from the search page 
+        */
+
+        this.focusListener = this.props.navigation.addListener('didFocus', (data) => {
+            if (data.state.params) {
+                this.setState({
+                    lectures: [...this.state.lectures, data.state.params]
+                });
+            }
+        })
+    }
+
+    componentWillUnmount() {
+        // Remove listener so that it can be used again
+        this.focusListener.remove();
+    }
+
+    render() {
+        return (
+            <View style={{ flex: 1 }}>
+                <ScrollView style={styles.container}>                    
+                    <View style={styles.buttonContainer}>
+                        <AddLectureBtn onPress={()=>this.props.navigation.navigate('Search')}></AddLectureBtn>
+                    </View>
+
+                    <View style={styles.lectures}>
+                        {   
+                            this.state.lectures.map(lecture => {
+                                return (
+                                    <View style={styles.lecture}>
+                                        <HomeLecture
+                                        subjectName={lecture['교과목명']}
+                                        currentStudentNumber={lecture['수강신청인원']}
+                                        maxStudentNumber={lecture['정원']}
+                                        ></HomeLecture>
+                                    </View>
+                                )
+                            })
+                        }
+                    </View>
+                </ScrollView>
+            </View>
+        )
+    }
+
     static navigationOptions = {
         title: [
             <Icon name='notifications-active' style={{ color: colors.yellow, fontSize: 30 }}></Icon>,
@@ -20,42 +74,6 @@ export default class MyLectures extends Component {
             height: 60,
         },
     };
-    
-    render() {
-        return (
-            <View style={{ flex: 1 }}>
-                <ScrollView style={styles.container}>                    
-                    <View style={styles.buttonContainer}>
-                        <AddLectureBtn onPress={()=>this.props.navigation.navigate('Search')}></AddLectureBtn>
-                    </View>
-
-                    <View style={styles.lectures}>
-                        <View style={styles.lecture}>
-                            <HomeLecture
-                            subjectName={'골프 초급(양종현)'}
-                            currentStudentNumber={29}
-                            maxStudentNumber={30}
-                            ></HomeLecture>
-                        </View>
-                        <View style={styles.lecture}>
-                            <HomeLecture
-                            subjectName={'골프 초급(양종현)'}
-                            currentStudentNumber={29}
-                            maxStudentNumber={30}
-                            ></HomeLecture>
-                        </View>
-                        <View style={styles.lecture}>
-                            <HomeLecture
-                            subjectName={'골프 초급(양종현)'}
-                            currentStudentNumber={29}
-                            maxStudentNumber={30}
-                            ></HomeLecture>
-                        </View>
-                    </View>
-                </ScrollView>
-            </View>
-        )
-    }
 }
 
 const styles = StyleSheet.create({

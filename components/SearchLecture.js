@@ -8,8 +8,15 @@ import Button from './Button'
 import chevronRight from '../assets/img/chevronRight.png'
 
 export default class SearchLecture extends Component {
-    handlePress() {
-        alert('button pressed');
+    constructor(props) {
+        super(props);
+        this.state = {
+            lectureData: this.props.lectureData
+        };
+    }
+    
+    addButtonPressed() {
+        this.props.addLecture(this.state.lectureData);
     }
     
     render() {
@@ -21,7 +28,7 @@ export default class SearchLecture extends Component {
                     <Button color={colors.yellow} text='강좌 상세 정보' imageUri={chevronRight}></Button>
                 </View>
                 <View style={styles.columnRight}>
-                    <TouchableHighlight style={styles.addButton} onPress={this.handlePress.bind(this)}>
+                    <TouchableHighlight style={styles.addButton} onPress={this.addButtonPressed.bind(this)}>
                         <Icon name='plus' size={26} style={styles.addIcon}></Icon>
                     </TouchableHighlight>
                 </View>

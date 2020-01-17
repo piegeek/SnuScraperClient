@@ -21,7 +21,6 @@ export default class TextSearch extends Component {
     }
     
     handlePress() {        
-        console.log(this.state.text);
         fetch(config.SNUSCRAPER_API_URI + 'api/lectures/title/' + this.state.text)
         .then(data => data.json())
         .then(lectures => {
