@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "963565101225",
+    "firebase_url": "https://snuscraper-fb1be.firebaseio.com",
+    "project_id": "snuscraper-fb1be",
+    "storage_bucket": "snuscraper-fb1be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:963565101225:android:60b502f1819118e27a89b8",
+        "android_client_info": {
+          "package_name": "com.snuscraperclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "963565101225-1b0qi4q0op43s7h4rqm6jarq61goc0mh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpwCiM7Y6ZCalU1EZbAyK336UFR9tRAUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "963565101225-1b0qi4q0op43s7h4rqm6jarq61goc0mh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

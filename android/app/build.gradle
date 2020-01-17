@@ -164,9 +164,16 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-firebase')
     implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
+
+    // Firebase dependencies
+    implementation "com.google.android.gms:play-services-base:16.1.0"
+    implementation "com.google.firebase:firebase-core:16.0.9"
+
+    implementation "com.google.firebase:firebase-messaging:18.0.0"
 
     // JSC from node_modules
     if (useIntlJsc) {
@@ -184,3 +191,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+
+apply plugin: 'com.google.gms.google-services'
