@@ -63,7 +63,8 @@ export default class Search extends Component {
         .then(() => console.log('POST REQUEST SENT TO SERVER'))
         .catch(err => console.error(err))   
 
-        this.props.navigation.navigate('MyLectures', lectureData);
+        this.props.navigation.getParam('updateLectures')(lectureData);
+        this.props.navigation.goBack();
     }
 
     render() {

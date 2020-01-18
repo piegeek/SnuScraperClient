@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, Image, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import AddLectureBtn from '../components/AddLectureBtn'
 import HomeLecture from '../components/HomeLecture'
@@ -10,6 +11,8 @@ import { colors } from '../styles/colors';
 export default class MyLectures extends Component {            
     constructor(props) {
         super(props);
+        this.updateLectures = this.updateLectures.bind(this);
+        this.navigateToSearch = this.navigateToSearch.bind(this);
         this.state = {
             lectures: [] 
         };
@@ -28,6 +31,16 @@ export default class MyLectures extends Component {
                 });
             }
         })
+
+        AsyncStorage.getItem('lectures')
+        .then(lecturesArr => {
+            if (lecturesArr) {
+                this.setState({
+                    lectures: lecturesArr
+                });
+            }
+        })
+        .catch(err => console.error(err))
     }
 
     componentWillUnmount() {
@@ -35,12 +48,24 @@ export default class MyLectures extends Component {
         this.focusListener.remove();
     }
 
+    updateLectures(lectureData) {
+        if (lectureData) {
+            this.setState({
+                lectures: [...this.state.lectures, lectureData]
+            })
+        }
+    }
+
+    navigateToSearch() {
+        this.props.navigation.navigate('Search', { updateLectures: this.updateLectures });
+    }
+
     render() {
         return (
             <View style={{ flex: 1 }}>
                 <ScrollView style={styles.container}>                    
                     <View style={styles.buttonContainer}>
-                        <AddLectureBtn onPress={()=>this.props.navigation.navigate('Search')}></AddLectureBtn>
+                        <AddLectureBtn onPress={this.navigateToSearch}></AddLectureBtn>
                     </View>
 
                     <View style={styles.lectures}>
