@@ -49,9 +49,7 @@ export default class MyLectures extends Component {
                                 return (
                                     <View style={styles.lecture}>
                                         <HomeLecture
-                                        subjectName={lecture['교과목명']}
-                                        currentStudentNumber={lecture['수강신청인원']}
-                                        maxStudentNumber={lecture['정원']}
+                                        lectureData={lecture}
                                         ></HomeLecture>
                                     </View>
                                 )
