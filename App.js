@@ -1,9 +1,11 @@
-import React, {Fragment} from 'react';
+import React, { Fragment, Component } from 'react';
 
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
-import Icon from 'react-native-vector-icons/FontAwesome'
+import AsyncStorage from '@react-native-community/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import firebase from 'react-native-firebase';
 
 import Intro from './pages/Intro'
 import Home from './pages/Home'
@@ -59,12 +61,81 @@ const MainNavigator = createBottomTabNavigator(
 
 const Navigation = createAppContainer(MainNavigator);
 
-const App = () => {
-  return (
-    <Fragment>
-    	<Navigation></Navigation>
-    </Fragment>
-  );
-};
+export default class App extends Component {
+	constructor(props) {
+		super(props);
+	}
 
-export default App;
+	componentDidMount() {
+		/*
+		Run this function after first render only
+		*/
+		this.checkFCMPermissions();
+	}
+
+	componentWillUnmount() {
+		/* 
+		Last function to run before the component is taken off the stack
+		*/
+		console.log('Taken off the stack')
+		// Implement token refresh handling
+	}
+	
+	checkFCMPermissions() {
+		firebase.messaging().hasPermission()
+		.then(enabled => {
+			if (enabled) {
+				// What to do if permission is enabled
+				this.checkDeviceToken();
+			}
+			else {
+				// Ask for permission
+				this.requestFCMPermissions();
+			}
+		})
+	}
+	
+	checkDeviceToken() {
+		AsyncStorage.getItem('fcmToken')
+		.then(fcmToken => {
+			if (fcmToken) {
+				return console.log(`Token already exists: ${fcmToken}`);
+			}
+			else {
+				firebase.messaging().getToken()
+				.then(newFcmToken => {
+					if (newFcmToken) {
+						AsyncStorage.setItem('fcmToken', newFcmToken).then(() => console.log('fcmToken successfully set.'))
+					}
+					else {
+						return console.log('No new FCM token received!');
+					}
+				})
+			}
+		})
+		.catch(err => {
+			console.log(err);
+		})
+	}
+
+
+	requestFCMPermissions() {
+		firebase.messaging().requestPermission()
+		.then(() => {
+			// User has authorized
+			this.checkDeviceToken();
+		})
+		.catch(() => {
+			// User has rejected
+			console.error('Permission denied')
+		})
+	}
+	
+	render() {
+		return (
+			<Fragment>
+    			<Navigation></Navigation>
+    		</Fragment>
+		)
+	}
+}
