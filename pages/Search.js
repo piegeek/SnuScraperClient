@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { colors } from '../styles/colors';
+import { config } from '../config'
 
 import TextSearch from '../components/TextSearch';
 import SearchLecture from '../components/SearchLecture';
@@ -36,9 +38,31 @@ export default class Search extends Component {
     addLecture(lectureData) {
         /* 
         Add a new lecture to 'MyLectures' page and navigate to it 
-        once add button on a SearchLecture componenet is pressed 
+        once add button on a 'SearchLecture' componenet is pressed 
         */
         
+
+        AsyncStorage.getItem('fcmToken')
+        .then(fcmToken => {
+            let token = String(fcmToken);
+            return token
+        })
+        .then(token => {
+            return fetch(config.SNUSCRAPER_API_URI + '/api/lectures/', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    lectureId: lectureData['_id'],
+                    userId: token
+                })
+            });
+        })
+        .then(() => console.log('POST REQUEST SENT TO SERVER'))
+        .catch(err => console.error(err))   
+
         this.props.navigation.navigate('MyLectures', lectureData);
     }
 

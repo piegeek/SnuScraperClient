@@ -11,12 +11,12 @@ export default class SearchLecture extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            lectureData: this.props.lectureData
+            lectureData: this.props.lectureData // Object
         };
     }
     
     addButtonPressed() {
-        this.props.addLecture(this.state.lectureData);
+        this.props.addLecture(this.state.lectureData); 
     }
     
     render() {
