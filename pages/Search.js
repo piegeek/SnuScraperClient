@@ -80,8 +80,6 @@ export default class Search extends Component {
                                 return (
                                     <SearchLecture
                                     lectureData={lecture}
-                                    subjectName={lecture['교과목명']}
-                                    subjectNumber={lecture['교과목번호']}
                                     addLecture={this.addLecture.bind(this)}
                                     ></SearchLecture>
                                 ) 
