@@ -19,19 +19,6 @@ export default class MyLectures extends Component {
     }
 
     componentDidMount() {
-        /* 
-        Add event listener to navigation prop so that lectures state is updated
-        every time a lecture is added from the search page 
-        */
-
-        this.focusListener = this.props.navigation.addListener('didFocus', (data) => {
-            if (data.state.params) {
-                this.setState({
-                    lectures: [...this.state.lectures, data.state.params]
-                });
-            }
-        })
-
         AsyncStorage.getItem('lectures')
         .then(lecturesArr => {
             if (lecturesArr) {
@@ -39,13 +26,16 @@ export default class MyLectures extends Component {
                     lectures: lecturesArr
                 });
             }
+            else {
+                console.log('No lectures')
+            }
         })
         .catch(err => console.error(err))
     }
 
     componentWillUnmount() {
-        // Remove listener so that it can be used again
-        this.focusListener.remove();
+        AsyncStorage.setItem('lectures', this.state.lectures)
+        .then(() => console.log('Lectures saved to local storage'))
     }
 
     updateLectures(lectureData) {
