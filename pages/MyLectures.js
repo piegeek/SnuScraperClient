@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AppState, Text, View, StyleSheet, Image, ScrollView } from 'react-native';
+import { AppState, Text, View, StyleSheet, Image, ScrollView, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -18,6 +18,7 @@ export default class MyLectures extends Component {
         this.storeData = this.storeData.bind(this);
         this.recoverData = this.recoverData.bind(this);
         this.deleteLectures = this.deleteLectures.bind(this);
+        this.deleteLectureAlert = this.deleteLectureAlert.bind(this);
         this.state = {
             lectures: [],
             appState: AppState.currentState
@@ -40,36 +41,51 @@ export default class MyLectures extends Component {
         }
     }
 
-    deleteLectures(lectureData) {
-        if (lectureData) {
-            AsyncStorage.getItem('fcmToken')
-            .then(fcmToken => {
-                let token = String(fcmToken);
-                return token
-            })
-            .then(token => {                
-                return fetch(config.SNUSCRAPER_API_URI + '/api/lectures/delete/', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        lectureId: lectureData['_id'],
-                        userId: token 
-                    })
-                })
-            })
-            .then(() => {
-                const newLecturesArr = this.state.lectures.filter(lecture => lecture['_id'] != lectureData['_id']);
-                this.setState({
-                    lectures: newLecturesArr       
-                });
+    async deleteLectures(lectureData) {
+        try {
+            if (lectureData) {
+                status = await this.deleteLectureAlert();
+                if (status == true) {
+                    token = await AsyncStorage.getItem('fcmToken');                    
+                    await fetch(config.SNUSCRAPER_API_URI + '/api/lectures/delete/', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            lectureId: lectureData['_id'],
+                            userId: token
+                        })
+                    });
 
-                this.storeData();
-            })
-            .catch(err => console.error(err));
+                    const newLecturesArr = this.state.lectures.filter(lecture => lecture['_id'] != lectureData['_id']);
+                    this.setState({
+                        lectures: newLecturesArr       
+                    });
+
+                    this.storeData();
+                }
+                else { return; }    
+            }
         }
+        catch(err) {
+            console.error(err)
+        }
+    }
+
+    deleteLectureAlert() {
+        return new Promise((res, rej) => {
+            Alert.alert(
+                '강좌 삭제',
+                '강좌를 삭제하시겠습니까?',
+                [
+                    { text: '확인', onPress: () => res(true) },
+                    { text: '취소', onPress: () => res(false) }
+                ],
+                { cancelable: true }
+            );
+        })
     }
 
     navigateToSearch() {
