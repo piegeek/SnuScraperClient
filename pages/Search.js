@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { View, ScrollView, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { colors } from '../styles/colors';
@@ -11,6 +11,7 @@ import SearchLecture from '../components/SearchLecture';
 export default class Search extends Component {    
     constructor(props) {
         super(props);
+        this.addLectureAlert = this.addLectureAlert.bind(this);
         this.state = {
             lectures: [],
         };
@@ -35,38 +36,53 @@ export default class Search extends Component {
         });
     }
 
-    addLecture(lectureData) {
+    async addLecture(lectureData) {
         /* 
         Add a new lecture to 'MyLectures' page and navigate to it 
         once add button on a 'SearchLecture' componenet is pressed 
         */
         
-        if (lectureData) {
-            AsyncStorage.getItem('fcmToken')
-            .then(fcmToken => {
-                let token = String(fcmToken);
-                return token
-            })
-            .then(token => {
-                return fetch(config.SNUSCRAPER_API_URI + '/api/lectures/', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        lectureId: lectureData['_id'],
-                        userId: token
-                    })
-                });
-            })
-            .then(() => console.log('POST REQUEST SENT TO SERVER'))
-            .catch(err => console.error(err))   
-
-            this.props.navigation.getParam('updateLectures')(lectureData);
+        try {
+            if (lectureData) {
+                status = await this.addLectureAlert();
+                if (status == true) {
+                    token = await AsyncStorage.getItem('fcmToken');
+                    await fetch(config.SNUSCRAPER_API_URI + '/api/lectures/', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            lectureId: lectureData['_id'],
+                            userId: token
+                        })
+                    });
+                    console.log('POST REQUEST SENT TO SERVER');
+                    
+                    this.props.navigation.getParam('updateLectures')(lectureData);
+                    this.props.navigation.goBack();
+                }
+                else { return; }
+            }
         }
-        
-        this.props.navigation.goBack();
+        catch(err) {
+            console.error(err);
+        }
+    }
+
+    addLectureAlert() {
+        return new Promise((res, rej) => {
+            Alert.alert(
+                '강좌 추가',
+                '강좌를 추가하시겠습니까?',
+                [
+                    { text: '확인', onPress: () => res(true) },
+                    { text: '취소', onPress: () => res(false) },
+                ],
+                { cancelable: true }
+            );
+        })
     }
 
     render() {
