@@ -1,0 +1,13 @@
+1. When token refresh occurs
+    (1). Token Refresh => 'fcmToken successfully set' => hasPermission => 'token exists'
+    (2). Token Refresh => 'fcmToken successfully set' => hasNoPermission => authorized => hasPermission => 'token exists' (Same steps as no.1 after user allows tokens)
+    (3). Token Refresh => 'fcmToken successfully set' => hasNoPermission => unauthorized => LOG ERROR
+
+2. When token refresh doesn't happen
+    (1). hasPermission => deviceTokenExists => 'token exists'
+    (2). hasPermission => deviceTokenNotExists => 'fcmToken successfully set'
+    (3). hasNoPermission => authorized => REPEAT (1) or (2)
+    (3). hasNoPermission => unauthorized => LOG ERROR
+
+********************* IMPORTANT!! IMPLEMENT IN THE FUTURE *********************
+    - WHEN A TOKEN REFRESH IS NEEDED, BUT DOESN'T OCCUR (EX: VERSION UPDATES) 

@@ -70,6 +70,11 @@ export default class App extends Component {
 		/*
 		Run this function after first render only
 		*/
+		this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(async fcmToken => {
+			await AsyncStorage.setItem('fcmToken', fcmToken)
+			console.log('fcmToken successfully set.');
+		});
+		
 		this.checkFCMPermissions();
 	}
 
@@ -79,6 +84,7 @@ export default class App extends Component {
 		*/
 		console.log('Taken off the stack')
 		// Implement token refresh handling
+		this.onTokenRefreshListener();
 	}
 	
 	checkFCMPermissions() {
@@ -99,10 +105,10 @@ export default class App extends Component {
 		AsyncStorage.getItem('fcmToken')
 		.then(fcmToken => {
 			if (fcmToken) {
-				return console.log(`Token already exists: ${fcmToken}`);
+				return console.log(`Token exists: ${fcmToken}`);
 			}
 			else {
-				firebase.messaging().getToken()
+				firebase.messaging().getToken()	
 				.then(newFcmToken => {
 					if (newFcmToken) {
 						AsyncStorage.setItem('fcmToken', newFcmToken).then(() => console.log('fcmToken successfully set.'))
