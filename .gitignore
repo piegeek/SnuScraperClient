@@ -60,3 +60,6 @@ buck-out/
 
 # config file
 config.js
+
+# temp files
+temp*.txt
