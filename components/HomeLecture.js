@@ -18,7 +18,6 @@ export default class HomeLecture extends Component {
     }
     
     deleteButtonPressed() {        
-        alert('삭제하시겠습니까?'); // Implement later
         this.props.deleteLectures(this.state.lectureData);
     }
 
