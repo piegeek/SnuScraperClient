@@ -98,6 +98,7 @@ export default class Search extends Component {
                             this.state.lectures.map(lecture => {
                                 return (
                                     <SearchLecture
+                                    key={lecture['_id']}
                                     lectureData={lecture}
                                     addLecture={this.addLecture.bind(this)}
                                     ></SearchLecture>

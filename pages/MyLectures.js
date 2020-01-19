@@ -38,7 +38,9 @@ export default class MyLectures extends Component {
             this.setState({
                 lectures: [...this.state.lectures, lectureData]
             });
+            this.storeData();
         }
+
     }
 
     async deleteLectures(lectureData) {
@@ -136,9 +138,9 @@ export default class MyLectures extends Component {
 
                     <View style={styles.lectures}>
                         {   
-                            this.state.lectures.map(lecture => {
+                            this.state.lectures.map(lecture => {                                
                                 return (
-                                    <View style={styles.lecture}>
+                                    <View key={lecture['_id']} style={styles.lecture}>
                                         <HomeLecture
                                         lectureData={lecture}
                                         deleteLectures={this.deleteLectures}
