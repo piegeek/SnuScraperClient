@@ -41,29 +41,31 @@ export default class Search extends Component {
         once add button on a 'SearchLecture' componenet is pressed 
         */
         
+        if (lectureData) {
+            AsyncStorage.getItem('fcmToken')
+            .then(fcmToken => {
+                let token = String(fcmToken);
+                return token
+            })
+            .then(token => {
+                return fetch(config.SNUSCRAPER_API_URI + '/api/lectures/', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        lectureId: lectureData['_id'],
+                        userId: token
+                    })
+                });
+            })
+            .then(() => console.log('POST REQUEST SENT TO SERVER'))
+            .catch(err => console.error(err))   
 
-        AsyncStorage.getItem('fcmToken')
-        .then(fcmToken => {
-            let token = String(fcmToken);
-            return token
-        })
-        .then(token => {
-            return fetch(config.SNUSCRAPER_API_URI + '/api/lectures/', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    lectureId: lectureData['_id'],
-                    userId: token
-                })
-            });
-        })
-        .then(() => console.log('POST REQUEST SENT TO SERVER'))
-        .catch(err => console.error(err))   
-
-        this.props.navigation.getParam('updateLectures')(lectureData);
+            this.props.navigation.getParam('updateLectures')(lectureData);
+        }
+        
         this.props.navigation.goBack();
     }
 

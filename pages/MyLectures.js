@@ -3,10 +3,11 @@ import { AppState, Text, View, StyleSheet, Image, ScrollView } from 'react-nativ
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-community/async-storage';
 
+import { colors } from '../styles/colors';
+import { config } from '../config';
+
 import AddLectureBtn from '../components/AddLectureBtn'
 import HomeLecture from '../components/HomeLecture'
-
-import { colors } from '../styles/colors';
 
 export default class MyLectures extends Component {            
     constructor(props) {
@@ -16,6 +17,7 @@ export default class MyLectures extends Component {
         this.handleAppStateChange = this.handleAppStateChange.bind(this);
         this.storeData = this.storeData.bind(this);
         this.recoverData = this.recoverData.bind(this);
+        this.deleteLectures = this.deleteLectures.bind(this);
         this.state = {
             lectures: [],
             appState: AppState.currentState
@@ -35,6 +37,38 @@ export default class MyLectures extends Component {
             this.setState({
                 lectures: [...this.state.lectures, lectureData]
             });
+        }
+    }
+
+    deleteLectures(lectureData) {
+        if (lectureData) {
+            AsyncStorage.getItem('fcmToken')
+            .then(fcmToken => {
+                let token = String(fcmToken);
+                return token
+            })
+            .then(token => {                
+                return fetch(config.SNUSCRAPER_API_URI + '/api/lectures/delete/', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        lectureId: lectureData['_id'],
+                        userId: token 
+                    })
+                })
+            })
+            .then(() => {
+                const newLecturesArr = this.state.lectures.filter(lecture => lecture['_id'] != lectureData['_id']);
+                this.setState({
+                    lectures: newLecturesArr       
+                });
+
+                this.storeData();
+            })
+            .catch(err => console.error(err));
         }
     }
 
@@ -91,6 +125,7 @@ export default class MyLectures extends Component {
                                     <View style={styles.lecture}>
                                         <HomeLecture
                                         lectureData={lecture}
+                                        deleteLectures={this.deleteLectures}
                                         ></HomeLecture>
                                     </View>
                                 )

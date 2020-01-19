@@ -1,18 +1,27 @@
 import React, { Component } from 'react'
 import { View, Text, Image, StyleSheet, TouchableHighlight } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import { colors } from '../styles/colors';
+
 import Button from './Button';
-import refreshImg from '../assets/img/refresh.png'
-import chevronRight from '../assets/img/chevronRight.png'
+import refreshImg from '../assets/img/refresh.png';
+import chevronRight from '../assets/img/chevronRight.png';
 
 export default class HomeLecture extends Component {
     constructor(props) {
         super(props);
+        this.deleteButtonPressed = this.deleteButtonPressed.bind(this);
         this.state = {
             lectureData: this.props.lectureData
         };
     }
     
+    deleteButtonPressed() {        
+        alert('삭제하시겠습니까?'); // Implement later
+        this.props.deleteLectures(this.state.lectureData);
+    }
+
     render() {
         return (
             <View style={styles.mainContainer}>
@@ -44,7 +53,12 @@ export default class HomeLecture extends Component {
                             ></Button>
                         </View>
                     </View>
-                </View>                
+                </View> 
+                <TouchableHighlight
+                onPress={this.deleteButtonPressed}
+                style={styles.deleteButton}>
+                    <Icon name='close' size={22} style={styles.deleteIcon}></Icon>
+                </TouchableHighlight>               
             </View>
         )
     }
@@ -85,4 +99,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 10
     },
+
+    deleteIcon: {
+        color: colors.purple
+    },
+
+    deleteButton: {
+        height: 24,
+        width: 24,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 11,
+        backgroundColor: colors.white,
+        position: 'absolute',
+        top: 10,
+        right: 15
+    }
 });
