@@ -20,13 +20,27 @@ export default class TextSearch extends Component {
         });
     }
     
-    handlePress() {        
-        fetch(config.SNUSCRAPER_API_URI + '/api/lectures/title/' + this.state.text)
-        .then(data => data.json())
-        .then(lectures => {
-            this.props.getSearchResults(lectures);
-        })
-        .catch(err => console.error(err));    
+    async handlePress() {        
+        try {
+            const uri = this.state.text.includes('.')
+            ? config.SNUSCRAPER_API_URI + '/api/lectures/code/' + this.state.text
+            : config.SNUSCRAPER_API_URI + '/api/lectures/title/' + this.state.text
+
+            this.props.loadingHandler();
+            const res = await fetch(uri);
+            this.props.loadingHandler();
+
+            if (res.status === 200) {
+                const lectures = await res.json();
+                this.props.getSearchResults(lectures);
+            }
+            else {
+                return console.log('Lecture not found. Try again.');
+            }
+        }
+        catch (err) {
+            console.error(err);
+        }
     }
     
 

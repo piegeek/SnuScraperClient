@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, StyleSheet, Alert } from 'react-native';
+import { View, ScrollView, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { colors } from '../styles/colors';
@@ -12,8 +12,10 @@ export default class Search extends Component {
     constructor(props) {
         super(props);
         this.addLectureAlert = this.addLectureAlert.bind(this);
+        this.loadingHandler = this.loadingHandler.bind(this);
         this.state = {
             lectures: [],
+            loading: false
         };
     }
 
@@ -33,6 +35,14 @@ export default class Search extends Component {
             this.setState({
                 lectures: [...this.state.lectures, result]
             })
+        });
+    }
+
+    loadingHandler() {
+        console.log(`Loading State for Search: ${this.state.loading}`);
+        
+        this.setState({
+            loading: !this.state.loading
         });
     }
 
@@ -90,7 +100,13 @@ export default class Search extends Component {
             <View style={{ flex: 1 }}>
                 <ScrollView style={styles.container}>
                     <View style={styles.textSearchContainer}>
-                        <TextSearch getSearchResults={this.getSearchResults.bind(this)}></TextSearch>
+                        <TextSearch loadingHandler={this.loadingHandler} getSearchResults={this.getSearchResults.bind(this)}></TextSearch>
+                    </View>
+                    <View>
+                        { this.state.loading
+                        ? <ActivityIndicator size='large' color={colors.purple}></ActivityIndicator>
+                        : null
+                        }
                     </View>
 
                     <View>

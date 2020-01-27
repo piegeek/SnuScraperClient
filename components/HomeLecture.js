@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { View, Text, StyleSheet, TouchableHighlight, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { colors } from '../styles/colors';
@@ -15,14 +15,17 @@ export default class HomeLecture extends Component {
         this.deleteButtonPressed = this.deleteButtonPressed.bind(this);
         this.getNewStudentNumber = this.getNewStudentNumber.bind(this);
         this.state = {
-            lectureData: this.props.lectureData
+            lectureData: this.props.lectureData,
+            loading: false
         };
     }
     
     async getNewStudentNumber() {
         try {
+            this.setState({ loading: true });
             const res = await fetch(config.LIVE_SCRAPER_API_URI + `/lectures/${this.state.lectureData['교과목번호']}/${parseInt(this.state.lectureData['강좌번호'])}`);
             const data = await res.json();
+            this.setState({ loading: false });
 
             if (parseInt(data.status) === 200) {
                 const newLectureData = this.state.lectureData;
@@ -58,11 +61,15 @@ export default class HomeLecture extends Component {
                             ? ' (00' + this.state.lectureData['강좌번호'] + ')'
                             : ' (0' + this.state.lectureData['강좌번호'] + ')'
                         }
-                    </Text>
-                    <Text style={styles.studentNumber}>
-                        { this.state.lectureData['수강신청인원'] }/{ this.state.lectureData['정원'].split(' ')[0] }
-                    </Text>
-
+                    </Text>                    
+                    { this.state.loading                    
+                        ?   <View style={styles.activityIndicator}>
+                                <ActivityIndicator size='large' color={colors.purple}></ActivityIndicator>
+                            </View>
+                        :   <Text style={styles.studentNumber}>
+                                { this.state.lectureData['수강신청인원'] }/{ this.state.lectureData['정원'].split(' ')[0] }
+                            </Text>
+                    }
                     <View style={styles.buttonsContainer}>
                         <View style={styles.buttonContainer}>
                             <Button
@@ -118,6 +125,14 @@ const styles = StyleSheet.create({
         fontSize: 40,
         color: colors.black,
         textAlign: 'center'
+    },
+
+    activityIndicator: {
+        height: 60,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 
     buttonContainer: {
