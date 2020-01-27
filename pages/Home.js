@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import MyLectures from './MyLectures';
 import Search from './Search';
+import LectureInfo from './LectureInfo';
 
 const HomeNavigator = createStackNavigator(
     {
@@ -12,6 +13,9 @@ const HomeNavigator = createStackNavigator(
         },
         Search: {
             screen: Search
+        },
+        LectureInfo: {
+            screen: LectureInfo
         }
     },
     {

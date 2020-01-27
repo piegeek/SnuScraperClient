@@ -24,6 +24,7 @@ export default class MyLectures extends Component {
         this.updateData = this.recoverData.bind(this);
         this.deleteLectures = this.deleteLectures.bind(this);
         this.deleteLectureAlert = this.deleteLectureAlert.bind(this);
+        this.navigateToLectureInfo = this.navigateToLectureInfo.bind(this);
         this.state = {
             lectures: [],
             appState: AppState.currentState
@@ -104,6 +105,10 @@ export default class MyLectures extends Component {
         this.props.navigation.navigate('Search', { updateLectures: this.updateLectures });
     }
 
+    navigateToLectureInfo(lecture) {
+        this.props.navigation.navigate('LectureInfo', { lectureData: lecture });
+    }
+
     storeData() {
         AsyncStorage.setItem('lectures', JSON.stringify(this.state.lectures))
         .then(() => console.log('Lectures saved to local storage'))
@@ -162,6 +167,7 @@ export default class MyLectures extends Component {
                                         lectureData={lecture}
                                         deleteLectures={this.deleteLectures}
                                         updateData={this.updateData}
+                                        navigateToLectureInfo={this.navigateToLectureInfo}
                                         ></HomeLecture>
                                     </View>
                                 )
@@ -177,8 +183,8 @@ export default class MyLectures extends Component {
         title: [
             <Icon name='notifications-active' style={{ color: colors.yellow, fontSize: 30 }}></Icon>,
             <Text
-            style={{ fontWeight: 'bold', fontSize: 25 }}
-            >SNU</Text>
+            style={{ fontWeight: 'bold', fontSize: 22 }}
+            >내 강좌</Text>
         ],
         headerStyle: {
             height: 60,

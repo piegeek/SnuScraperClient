@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
-import { colors } from '../styles/colors';
+import { colors } from '../styles/colors'
 
 import Background from '../components/Background';
 
-export default class Misc extends Component {
+export default class Info extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
@@ -13,15 +13,18 @@ export default class Misc extends Component {
                 <ScrollView style={styles.container}>
                     <View style={styles.infoContainer}>
                         <Text style={styles.title}>
-                            더 보기
+                            사용하는 방법
                         </Text>
                         <View style={styles.textContainer}>
-                            <Text style={styles.textTitle}>1. 버그 제보나 문의는?</Text>
-                            <Text style={styles.textContent}>cloud_alarm@protonmail.com 으로 메일 보내주세요!</Text>
+                            <Text style={styles.textTitle}>1. 알림을 받고자 하는 강좌를 추가한다</Text>
+                            <Text style={styles.textContent}>내 강좌 -> 강좌 알림 추가하기</Text>
                         </View>
                         <View style={styles.textContainer}>
-                            <Text style={styles.textTitle}>2. iOS도 지원되나요?</Text>
-                            <Text style={styles.textContent}>iOS 버전은 추후에 지원될 예정입니다 :)</Text>
+                            <Text style={styles.textTitle}>2. 추가 된 강좌에 빈 자리가 생기면 자동으로 알림이 온다</Text>
+                        </View>
+                        <View style={styles.textContainer}>
+                            <Text style={styles.textTitle}>3. 강좌의 실시간 인원을 보려면?</Text>
+                            <Text style={styles.textContent}>내 강좌 -> 실시간 인원 확인 버튼</Text>
                         </View>
                     </View>
                 </ScrollView>

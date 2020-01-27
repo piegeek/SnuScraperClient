@@ -18,6 +18,7 @@ export default class HomeLecture extends Component {
         super(props);
         this.deleteButtonPressed = this.deleteButtonPressed.bind(this);
         this.getNewStudentNumber = this.getNewStudentNumber.bind(this);
+        this.navigateButtonPressed = this.navigateButtonPressed.bind(this);
         this.state = {
             lectureData: this.props.lectureData,
             loading: false
@@ -58,6 +59,10 @@ export default class HomeLecture extends Component {
         this.props.deleteLectures(this.state.lectureData);
     }
 
+    navigateButtonPressed() {
+        this.props.navigateToLectureInfo(this.state.lectureData);
+    }
+
     render() {
         return (
             <View style={styles.mainContainer}>
@@ -91,6 +96,7 @@ export default class HomeLecture extends Component {
                             color={colors.yellow}
                             text='강좌 상세 정보'
                             imageUri={chevronRight}
+                            onPress={this.navigateButtonPressed}
                             ></Button>
                         </View>
                     </View>

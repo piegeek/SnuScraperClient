@@ -9,12 +9,13 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 import firebase from 'react-native-firebase';
 import { Client } from 'bugsnag-react-native';
 
-import Home from './pages/Home';
-import Search from './pages/Search';
-import Exchange from './pages/Exchange';
-import Misc from './pages/Misc';
 import { colors } from './styles/colors';
 import { config } from './config';
+
+import Home from './pages/Home';
+import Exchange from './pages/Exchange';
+import Info from './pages/Info'
+import Misc from './pages/Misc';
 
 const bugsnag = new Client(config.BUGSNAG_ID);
 
@@ -31,14 +32,14 @@ const MainNavigator = createBottomTabNavigator(
 			},
 		},
       Exchange: {
-			screen: Search,
+			screen: Exchange,
 			navigationOptions: {
 				tabBarLabel: '강의 교환',
 				tabBarIcon: <Icon name='exchange' size={tabBarIconSize} style={{ color: tabBarIconColor }}></Icon>
 			},
 		},
-      HowTo: {
-			screen: Exchange,
+      Info: {
+			screen: Info,
 			navigationOptions: {
 				tabBarLabel: '사용법',
 				tabBarIcon: <Icon name='info-circle' size={tabBarIconSize} style={{ color: tabBarIconColor }}></Icon>

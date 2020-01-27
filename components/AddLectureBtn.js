@@ -17,7 +17,7 @@ export default class AddLectureBtn extends Component {
                     <Image style={styles.circleImg} source={addCircle}></Image>
                 </View>
             </TouchableHighlight>
-        )
+        );
     }
 }
 
