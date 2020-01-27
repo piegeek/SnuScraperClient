@@ -2,12 +2,16 @@ import React, { Component } from 'react'
 import { AppState, Text, View, StyleSheet, Image, ScrollView, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Client } from 'bugsnag-react-native';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 import { colors } from '../styles/colors';
 import { config } from '../config';
 
 import AddLectureBtn from '../components/AddLectureBtn'
 import HomeLecture from '../components/HomeLecture'
+
+const bugsnag = new Client(config.BUGSNAG_ID);
 
 export default class MyLectures extends Component {            
     constructor(props) {
@@ -68,12 +72,17 @@ export default class MyLectures extends Component {
                     });
 
                     this.storeData();
+
+                    showMessage({
+                        message: '강좌가 성공적으로 삭제되었습니다.',
+                        type: 'info'
+                    });
                 }
                 else { return; }    
             }
         }
         catch(err) {
-            console.error(err)
+            bugsnag.notify(err);
         }
     }
 
@@ -112,7 +121,7 @@ export default class MyLectures extends Component {
                 console.log('No lectures');
             }
         })
-        .catch(err => console.error(err))
+        .catch(err => bugsnag.notify(err))
     }
 
     updateData(newData) {

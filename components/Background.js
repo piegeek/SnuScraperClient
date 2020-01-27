@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '100%',
         height: 60,
-        // backgroundColor: 'red'
     },
     
     logoContainer: {
@@ -41,7 +40,6 @@ const styles = StyleSheet.create({
     
     wavesBox: {
         resizeMode: 'contain',
-        // backgroundColor: 'red',
         height: 33,
         width: '100%',
         position: 'absolute',

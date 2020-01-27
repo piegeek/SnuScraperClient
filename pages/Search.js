@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { View, ScrollView, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Client } from 'bugsnag-react-native';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 import { colors } from '../styles/colors';
 import { config } from '../config'
 
 import TextSearch from '../components/TextSearch';
 import SearchLecture from '../components/SearchLecture';
+
+const bugsnag = new Client(config.BUGSNAG_ID);
 
 export default class Search extends Component {    
     constructor(props) {
@@ -39,8 +43,6 @@ export default class Search extends Component {
     }
 
     loadingHandler() {
-        console.log(`Loading State for Search: ${this.state.loading}`);
-        
         this.setState({
             loading: !this.state.loading
         });
@@ -57,6 +59,12 @@ export default class Search extends Component {
                 status = await this.addLectureAlert();
                 if (status == true) {
                     token = await AsyncStorage.getItem('fcmToken');
+                    // Erase afterwards
+                    showMessage({
+                        message: '강좌 추가하기 완료',
+                        type: 'info'
+                    });
+                    
                     await fetch(config.SNUSCRAPER_API_URI + '/api/lectures/', {
                         method: 'POST',
                         headers: {
@@ -77,7 +85,7 @@ export default class Search extends Component {
             }
         }
         catch(err) {
-            console.error(err);
+            bugsnag.notify(err);
         }
     }
 

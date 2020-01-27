@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableHighlight, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Client } from 'bugsnag-react-native';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 import { colors } from '../styles/colors';
 import { config } from '../config'
@@ -8,6 +10,8 @@ import { config } from '../config'
 import Button from './Button';
 import refreshImg from '../assets/img/refresh.png';
 import chevronRight from '../assets/img/chevronRight.png';
+
+const bugsnag = new Client(config.BUGSNAG_ID);
 
 export default class HomeLecture extends Component {
     constructor(props) {
@@ -39,11 +43,14 @@ export default class HomeLecture extends Component {
                 console.log(`Updated number: ${data.updated_number}`)
             }
             else {
-                console.log('Something went wrong, try again');
+                showMessage({
+                    message: '오류가 발생했습니다. 다시 시도해주세요.',
+                    type: 'warning'
+                });
             }
         }
         catch(err) {
-            console.log(err);
+            bugsnag.notify(err);
         }
     }
 

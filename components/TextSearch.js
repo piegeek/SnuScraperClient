@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput, TouchableHighlight, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
+import { Client } from 'bugsnag-react-native';
+import { showMessage, hideMessage } from "react-native-flash-message";
+
 
 import TextSearchBar from './TextSearchBar'
 import { colors } from '../styles/colors';
 import { config } from '../config';
+
+const bugsnag = new Client(config.BUGSNAG_ID);
 
 export default class TextSearch extends Component {
     constructor(props) {
@@ -35,11 +40,14 @@ export default class TextSearch extends Component {
                 this.props.getSearchResults(lectures);
             }
             else {
-                return console.log('Lecture not found. Try again.');
+                return showMessage({
+                    message: '강좌를 찾지 못했습니다. 다시 시도해주세요.',
+                    type: 'warning'
+                });
             }
         }
         catch (err) {
-            console.error(err);
+            bugsnag.notify(err);
         }
     }
     
