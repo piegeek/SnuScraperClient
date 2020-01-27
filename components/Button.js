@@ -3,8 +3,13 @@ import { View, Text, Image, StyleSheet, TouchableHighlight } from 'react-native'
 import { colors } from '../styles/colors'
 
 export default class Button extends Component {    
+    constructor(props) {
+        super(props);
+        this.handlePress = this.handlePress.bind(this);
+    }
+    
     handlePress(e) {
-        alert('Pressed');
+        this.props.onPress();
     }
     
     render() {

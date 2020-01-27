@@ -17,6 +17,7 @@ export default class MyLectures extends Component {
         this.handleAppStateChange = this.handleAppStateChange.bind(this);
         this.storeData = this.storeData.bind(this);
         this.recoverData = this.recoverData.bind(this);
+        this.updateData = this.recoverData.bind(this);
         this.deleteLectures = this.deleteLectures.bind(this);
         this.deleteLectureAlert = this.deleteLectureAlert.bind(this);
         this.state = {
@@ -114,6 +115,13 @@ export default class MyLectures extends Component {
         .catch(err => console.error(err))
     }
 
+    updateData(newData) {
+        const unchangedLectures = this.state.lectures.filter(lecture => lectures['_id'] !== newData['_id']);
+        this.setState({
+            lectures: [...unchangedLectures, newData]
+        });
+    }
+
     handleAppStateChange(nextAppState) {
         /*
         Save lectures data when app is closed
@@ -144,6 +152,7 @@ export default class MyLectures extends Component {
                                         <HomeLecture
                                         lectureData={lecture}
                                         deleteLectures={this.deleteLectures}
+                                        updateData={this.updateData}
                                         ></HomeLecture>
                                     </View>
                                 )

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { colors } from '../styles/colors';
+import { config } from '../config'
 
 import Button from './Button';
 import refreshImg from '../assets/img/refresh.png';
@@ -12,11 +13,37 @@ export default class HomeLecture extends Component {
     constructor(props) {
         super(props);
         this.deleteButtonPressed = this.deleteButtonPressed.bind(this);
+        this.getNewStudentNumber = this.getNewStudentNumber.bind(this);
         this.state = {
             lectureData: this.props.lectureData
         };
     }
     
+    async getNewStudentNumber() {
+        try {
+            const res = await fetch(config.LIVE_SCRAPER_API_URI + `/lectures/${this.state.lectureData['교과목번호']}/${parseInt(this.state.lectureData['강좌번호'])}`);
+            const data = await res.json();
+
+            if (parseInt(data.status) === 200) {
+                const newLectureData = this.state.lectureData;
+                newLectureData['수강신청인원'] = parseInt(data.updated_number)
+                
+                this.setState({
+                    lectureData: newLectureData
+                });
+                this.props.updateData(this.state.lectureData);
+                console.log('Success')
+                console.log(`Updated number: ${data.updated_number}`)
+            }
+            else {
+                console.log('Something went wrong, try again');
+            }
+        }
+        catch(err) {
+            console.log(err);
+        }
+    }
+
     deleteButtonPressed() {        
         this.props.deleteLectures(this.state.lectureData);
     }
@@ -42,6 +69,7 @@ export default class HomeLecture extends Component {
                             color={colors.orange}
                             text='실시간 인원 확인'
                             imageUri={refreshImg}
+                            onPress={this.getNewStudentNumber}
                             ></Button>
                         </View>
                         <View style={styles.buttonContainer}>
