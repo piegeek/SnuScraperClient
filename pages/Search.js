@@ -58,13 +58,7 @@ export default class Search extends Component {
             if (lectureData) {
                 status = await this.addLectureAlert();
                 if (status == true) {
-                    token = await AsyncStorage.getItem('fcmToken');
-                    // Erase afterwards
-                    showMessage({
-                        message: '강좌 추가하기 완료',
-                        type: 'info'
-                    });
-                    
+                    token = await AsyncStorage.getItem('fcmToken');                    
                     await fetch(config.SNUSCRAPER_API_URI + '/api/lectures/', {
                         method: 'POST',
                         headers: {
@@ -77,6 +71,10 @@ export default class Search extends Component {
                         })
                     });
                     console.log('POST REQUEST SENT TO SERVER');
+                    showMessage({
+                        message: '강좌 추가하기 완료',
+                        type: 'info'
+                    });
                     
                     this.props.navigation.getParam('updateLectures')(lectureData);
                     this.props.navigation.goBack();
@@ -85,6 +83,10 @@ export default class Search extends Component {
             }
         }
         catch(err) {
+            showMessage({
+                message: '오류가 발생했습니다. 다시 시도해주세요.',
+                type: 'warning'
+            });
             bugsnag.notify(err);
         }
     }

@@ -51,6 +51,10 @@ export default class HomeLecture extends Component {
             }
         }
         catch(err) {
+            showMessage({
+                message: '오류가 발생했습니다. 다시 시도해주세요.',
+                type: 'warning'
+            });
             bugsnag.notify(err);
         }
     }

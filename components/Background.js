@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import waves from '../assets/img/waves.png'
-import logo from '../assets/img/logo.png'
+import waves from '../assets/img/waves.png';
+import cloudLogo from '../assets/img/cloudLogo.png';
 
 export default class Background extends Component {
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.logoContainer}>
-                    <Image style={styles.logo} source={logo} ></Image>
+                    <Image style={styles.logo} source={cloudLogo} ></Image>
                 </View>       
                 <Image style={styles.wavesBox} source={waves}></Image>   
             </View>
@@ -32,10 +32,10 @@ const styles = StyleSheet.create({
     
     logo: {
         resizeMode: 'contain',
-        height: 39,
-        width: 98,
-        position: 'relative',
-        left: 17
+        height: 50,
+        width: 180,
+        position: 'absolute',
+        left: 10
     },
     
     wavesBox: {

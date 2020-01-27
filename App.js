@@ -157,6 +157,6 @@ export default class App extends Component {
     			<Navigation></Navigation>
 				<FlashMessage position='bottom'></FlashMessage>
 			</Fragment>
-		)
+		);
 	}
 }
