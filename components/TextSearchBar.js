@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.lightGrey,
         height: 70,
-        width: '80%',
+        width: '75%',
         borderRadius: 17,
         borderWidth: 3,
         borderColor: colors.purple,
@@ -46,5 +46,6 @@ const styles = StyleSheet.create({
         width: '100%',
         fontSize: 18,
         fontWeight: 'bold',
+        paddingLeft: 15
     },
 });
