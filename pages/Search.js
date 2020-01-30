@@ -17,6 +17,7 @@ export default class Search extends Component {
         super(props);
         this.addLectureAlert = this.addLectureAlert.bind(this);
         this.loadingHandler = this.loadingHandler.bind(this);
+        this.navigateToLectureInfo = this.navigateToLectureInfo.bind(this);
         this.state = {
             lectures: [],
             loading: false
@@ -46,6 +47,10 @@ export default class Search extends Component {
         this.setState({
             loading: !this.state.loading
         });
+    }
+
+    navigateToLectureInfo(lecture) {
+        this.props.navigation.navigate('LectureInfo', { lectureData: lecture });
     }
 
     async addLecture(lectureData) {
@@ -127,6 +132,7 @@ export default class Search extends Component {
                                     key={lecture['_id']}
                                     lectureData={lecture}
                                     addLecture={this.addLecture.bind(this)}
+                                    navigateToLectureInfo={this.navigateToLectureInfo}
                                     ></SearchLecture>
                                 ) 
                             })

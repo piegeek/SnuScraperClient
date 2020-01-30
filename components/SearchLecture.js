@@ -2,14 +2,16 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-import {colors} from '../styles/colors'
-import Button from './Button'
+import {colors} from '../styles/colors';
+import Button from './Button';
 
 import chevronRight from '../assets/img/chevronRight.png'
 
 export default class SearchLecture extends Component {
     constructor(props) {
         super(props);
+        this.addButtonPressed = this.addButtonPressed.bind(this);
+        this.navigateButtonPressed = this.navigateButtonPressed.bind(this);
         this.state = {
             lectureData: this.props.lectureData // Object
         };
@@ -17,6 +19,10 @@ export default class SearchLecture extends Component {
     
     addButtonPressed() {
         this.props.addLecture(this.state.lectureData); 
+    }
+
+    navigateButtonPressed() {
+        this.props.navigateToLectureInfo(this.state.lectureData);
     }
     
     render() {        
@@ -30,10 +36,10 @@ export default class SearchLecture extends Component {
                             : this.state.lectureData['교과목번호'] + ' (0' + this.state.lectureData['강좌번호'] + ')'
                         }
                     </Text>
-                    <Button color={colors.yellow} text='강좌 상세 정보' imageUri={chevronRight}></Button>
+                    <Button onPress={this.navigateButtonPressed} color={colors.yellow} text='강좌 상세 정보' imageUri={chevronRight}></Button>
                 </View>
                 <View style={styles.columnRight}>
-                    <TouchableHighlight style={styles.addButton} onPress={this.addButtonPressed.bind(this)}>
+                    <TouchableHighlight style={styles.addButton} onPress={this.addButtonPressed}>
                         <Icon name='plus' size={26} style={styles.addIcon}></Icon>
                     </TouchableHighlight>
                 </View>
