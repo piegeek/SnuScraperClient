@@ -10,7 +10,7 @@ export default class Background extends Component {
                 <View style={styles.logoContainer}>
                     <Image style={styles.logo} source={cloudLogo} ></Image>
                 </View>       
-                <Image style={styles.wavesBox} source={waves}></Image>   
+                {/* <Image style={styles.wavesBox} source={waves}></Image>    */}
             </View>
         )
     }

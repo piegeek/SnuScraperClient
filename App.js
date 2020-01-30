@@ -14,7 +14,8 @@ import { config } from './config';
 
 import Home from './pages/Home';
 import Exchange from './pages/Exchange';
-import Info from './pages/Info'
+import Stats from './pages/Stats';
+import Info from './pages/Info';
 import Misc from './pages/Misc';
 
 const bugsnag = new Client(config.BUGSNAG_ID);
@@ -31,11 +32,11 @@ const MainNavigator = createBottomTabNavigator(
 				tabBarIcon: <Icon name='home' size={tabBarIconSize} style={{ color: tabBarIconColor }}></Icon>
 			},
 		},
-      Exchange: {
-			screen: Exchange,
+      Stats: {
+			screen: Stats,
 			navigationOptions: {
-				tabBarLabel: '강의 교환',
-				tabBarIcon: <Icon name='exchange' size={tabBarIconSize} style={{ color: tabBarIconColor }}></Icon>
+				tabBarLabel: '통계',
+				tabBarIcon: <Icon name='line-chart' size={tabBarIconSize} style={{ color: tabBarIconColor }}></Icon>
 			},
 		},
       Info: {

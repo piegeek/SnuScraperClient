@@ -38,10 +38,11 @@ export default class HomeLecture extends Component {
                 
                 this.setState({
                     lectureData: newLectureData
+                }, () => {
+                    this.props.updateData(newLectureData);
+                    console.log('Success');
+                    console.log(`Updated number: ${data.updated_number}`);
                 });
-                this.props.updateData(this.state.lectureData);
-                console.log('Success')
-                console.log(`Updated number: ${data.updated_number}`)
             }
             else {
                 showMessage({

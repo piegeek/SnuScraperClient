@@ -10,6 +10,7 @@ import { config } from '../config';
 
 import AddLectureBtn from '../components/AddLectureBtn'
 import HomeLecture from '../components/HomeLecture'
+import { createKeyboardAwareNavigator } from 'react-navigation';
 
 const bugsnag = new Client(config.BUGSNAG_ID);
 
@@ -21,7 +22,7 @@ export default class MyLectures extends Component {
         this.handleAppStateChange = this.handleAppStateChange.bind(this);
         this.storeData = this.storeData.bind(this);
         this.recoverData = this.recoverData.bind(this);
-        this.updateData = this.recoverData.bind(this);
+        this.updateData = this.updateData.bind(this);
         this.deleteLectures = this.deleteLectures.bind(this);
         this.deleteLectureAlert = this.deleteLectureAlert.bind(this);
         this.navigateToLectureInfo = this.navigateToLectureInfo.bind(this);
@@ -134,9 +135,18 @@ export default class MyLectures extends Component {
     }
 
     updateData(newData) {
-        const unchangedLectures = this.state.lectures.filter(lecture => lectures['_id'] !== newData['_id']);
-        this.setState({
-            lectures: [...unchangedLectures, newData]
+        const updatedLectures = [];
+        this.state.lectures.forEach(lecture => {
+            if (lecture['_id'] === newData['_id']) {
+                updatedLectures.push(newData);
+            }
+            else {
+                updatedLectures.push(lecture);
+            }
+        });
+
+        this.setState({ lectures: updatedLectures }, ()=> {
+            this.storeData();
         });
     }
 
