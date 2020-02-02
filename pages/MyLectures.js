@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AppState, Text, View, StyleSheet, Image, ScrollView, Alert } from 'react-native';
+import { AppState, Text, View, StyleSheet, Image, ScrollView, Alert, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Client } from 'bugsnag-react-native';
@@ -8,8 +8,9 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 import { colors } from '../styles/colors';
 import { config } from '../config';
 
-import AddLectureBtn from '../components/AddLectureBtn'
-import HomeLecture from '../components/HomeLecture'
+import AddLectureBtn from '../components/AddLectureBtn';
+import DeleteAllLecturesBtn from '../components/DeleteAllLecturesBtn';
+import HomeLecture from '../components/HomeLecture';
 import { createKeyboardAwareNavigator } from 'react-navigation';
 
 const bugsnag = new Client(config.BUGSNAG_ID);
@@ -26,6 +27,7 @@ export default class MyLectures extends Component {
         this.deleteLectures = this.deleteLectures.bind(this);
         this.deleteLectureAlert = this.deleteLectureAlert.bind(this);
         this.navigateToLectureInfo = this.navigateToLectureInfo.bind(this);
+        this.deleteAllLectures = this.deleteAllLectures.bind(this);
         this.state = {
             lectures: [],
             appState: AppState.currentState
@@ -54,7 +56,7 @@ export default class MyLectures extends Component {
         try {
             if (lectureData) {
                 status = await this.deleteLectureAlert();
-                if (status == true) {
+                if (status === true) {
                     token = await AsyncStorage.getItem('fcmToken');                    
                     await fetch(config.SNUSCRAPER_API_URI + '/api/lectures/delete/', {
                         method: 'POST',
@@ -67,20 +69,46 @@ export default class MyLectures extends Component {
                             userId: token
                         })
                     });
-
-                    const newLecturesArr = this.state.lectures.filter(lecture => lecture['_id'] != lectureData['_id']);
-                    this.setState({
-                        lectures: newLecturesArr       
-                    });
-
-                    this.storeData();
-
-                    showMessage({
-                        message: '강좌가 성공적으로 삭제되었습니다.',
-                        type: 'info'
-                    });
                 }
                 else { return; }    
+            }
+        }
+        catch(err) {            
+            bugsnag.notify(err);
+        }
+
+        // Deletes lecture no matter what
+        const newLecturesArr = this.state.lectures.filter(lecture => lecture['_id'] != lectureData['_id']);
+        this.setState({
+            lectures: newLecturesArr       
+        });
+
+        this.storeData();
+
+        showMessage({
+            message: '강좌가 성공적으로 삭제되었습니다.',
+            type: 'info'
+        });
+    }
+
+    async deleteAllLectures() {
+        try {
+            status = await this.deleteLectureAlert();
+            if (status === true) {
+                token = await AsyncStorage.getItem('fcmToken');
+                await Promise.all(this.state.lectures.map(lectureData => {
+                    fetch(config.SNUSCRAPER_API_URI + '/api/lectures/delete/', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            lectureId: lectureData['_id'],
+                            userId: token
+                        })
+                    });
+                }));
             }
         }
         catch(err) {
@@ -90,6 +118,17 @@ export default class MyLectures extends Component {
             });
             bugsnag.notify(err);
         }
+
+        this.setState({
+            lectures: []       
+        });
+
+        this.storeData();
+
+        showMessage({
+            message: '강좌들이 성공적으로 삭제되었습니다.',
+            type: 'info'
+        });
     }
 
     deleteLectureAlert() {
@@ -187,6 +226,13 @@ export default class MyLectures extends Component {
                                 )
                             })
                         }
+                        {
+                            this.state.lectures.length > 0
+                            ?   <TouchableHighlight onPress={this.deleteAllLectures} style={styles.deleteAllBtn}>
+                                    <Text style={styles.deleteAllBtnText}>강좌 모두 삭제하기</Text>
+                                </TouchableHighlight>
+                            : null
+                        }
                     </View>
                 </ScrollView>
             </View>
@@ -217,6 +263,24 @@ const styles = StyleSheet.create({
         fontSize: 35,
         color: colors.orange,
         textAlign: 'center',
+    },
+
+    deleteAllBtn: {
+        width: '100%',
+        height: 50,
+        marginTop: 10,
+        marginBottom: 20,
+        borderRadius: 10,
+        backgroundColor:'#fa2828',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    deleteAllBtnText: {
+        color: colors.white,
+        fontSize: 20
     },
 
     buttonContainer: {
