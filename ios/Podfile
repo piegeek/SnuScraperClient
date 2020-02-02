@@ -32,6 +32,8 @@ target 'SnuScraperClient' do
 
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
 
+  pod 'Firebase/Messaging'
+
   target 'SnuScraperClientTests' do
     inherit! :search_paths
     # Pods for testing
