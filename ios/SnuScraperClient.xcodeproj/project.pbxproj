@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* SnuScraperClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SnuScraperClientTests.m */; };
-		048104762E5F4861A0351DC0 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD54D4549B4C4E6293585759 /* MaterialCommunityIcons.ttf */; };
 		131B2526D2E21A53A108D278 /* libPods-SnuScraperClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C56C4E29CCEED32F23089F97 /* libPods-SnuScraperClient.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
@@ -18,25 +17,10 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* SnuScraperClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SnuScraperClientTests.m */; };
-		3A967703AFE241339E84EBD9 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9349FACC8924F1AAF12CE27 /* FontAwesome5_Solid.ttf */; };
-		45F5D40F038B4D46B28F97B5 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DF7E529D50744518A5D811E4 /* Entypo.ttf */; };
-		630E38A6C63E44499577FE40 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 87166A6C467D4C2999F7E136 /* SimpleLineIcons.ttf */; };
-		68E1B3FD115E4A438890A731 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4EEE85E7CF2542C885A56685 /* FontAwesome5_Regular.ttf */; };
-		68ED5A5423C04E4E8B4ABC89 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 07F53FC622AB467081BAA955 /* FontAwesome5_Brands.ttf */; };
-		897B126DFC8A468DAAE1CFA5 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0C601A3684D44C8082AF65DB /* Fontisto.ttf */; };
-		908ACBF5D6784956A10BF29D /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 003B2D843C4B49A99211184C /* Ionicons.ttf */; };
-		9161DA20E2C24E7A833603C7 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D225687C05754683946F835E /* AntDesign.ttf */; };
-		933736A4178D46F8AB255112 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 767D53BE25FF4F6A867E9334 /* Octicons.ttf */; };
 		968A723F8E622C04279F7FD1 /* libPods-SnuScraperClient-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C950F936EA3DBF719B8E7B1 /* libPods-SnuScraperClient-tvOS.a */; };
-		A393C8BC8C07457C8E9150B9 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B0F22BE379B474EA08960D1 /* Foundation.ttf */; };
-		AE2C802FCE904488BDE13766 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BA97F1F0D2E041729DA4E779 /* EvilIcons.ttf */; };
-		AFA66456A1F9486CA0386F28 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A2E5B1786DC4CFDB941F2B7 /* FontAwesome.ttf */; };
 		CC676E38A1BD11D3686AF3AB /* libPods-SnuScraperClient-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BC2505947CEE34C6EFD54C2 /* libPods-SnuScraperClient-tvOSTests.a */; };
 		D795DBF723E73CD4002816FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D795DBF623E73CD4002816FC /* GoogleService-Info.plist */; };
-		EAED6637AEA4402A9FA0BB67 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF685FB799924C9DA85479FD /* Feather.ttf */; };
-		F73A2C5BC3A0497CBB33EFA9 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 61D253C58DD1403FA5B1DAEC /* MaterialIcons.ttf */; };
 		FE937C227003AE4953EE921B /* libPods-SnuScraperClientTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E600B128DDA31B93D5E22BA2 /* libPods-SnuScraperClientTests.a */; };
-		FF8F9A371D104707902CD459 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5D80C532155466FBA38C35E /* Zocial.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +80,7 @@
 		D225687C05754683946F835E /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		D5D80C532155466FBA38C35E /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		D795DBF623E73CD4002816FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D7B90B5523E748EE00C9FB7C /* SnuScraperClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SnuScraperClient.entitlements; path = SnuScraperClient/SnuScraperClient.entitlements; sourceTree = "<group>"; };
 		DF7E529D50744518A5D811E4 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		E600B128DDA31B93D5E22BA2 /* libPods-SnuScraperClientTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SnuScraperClientTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -159,6 +144,7 @@
 		13B07FAE1A68108700A75B9A /* SnuScraperClient */ = {
 			isa = PBXGroup;
 			children = (
+				D7B90B5523E748EE00C9FB7C /* SnuScraperClient.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -398,23 +384,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				9161DA20E2C24E7A833603C7 /* AntDesign.ttf in Resources */,
-				45F5D40F038B4D46B28F97B5 /* Entypo.ttf in Resources */,
-				AE2C802FCE904488BDE13766 /* EvilIcons.ttf in Resources */,
-				EAED6637AEA4402A9FA0BB67 /* Feather.ttf in Resources */,
-				AFA66456A1F9486CA0386F28 /* FontAwesome.ttf in Resources */,
-				68ED5A5423C04E4E8B4ABC89 /* FontAwesome5_Brands.ttf in Resources */,
-				68E1B3FD115E4A438890A731 /* FontAwesome5_Regular.ttf in Resources */,
-				3A967703AFE241339E84EBD9 /* FontAwesome5_Solid.ttf in Resources */,
-				897B126DFC8A468DAAE1CFA5 /* Fontisto.ttf in Resources */,
 				D795DBF723E73CD4002816FC /* GoogleService-Info.plist in Resources */,
-				A393C8BC8C07457C8E9150B9 /* Foundation.ttf in Resources */,
-				908ACBF5D6784956A10BF29D /* Ionicons.ttf in Resources */,
-				048104762E5F4861A0351DC0 /* MaterialCommunityIcons.ttf in Resources */,
-				F73A2C5BC3A0497CBB33EFA9 /* MaterialIcons.ttf in Resources */,
-				933736A4178D46F8AB255112 /* Octicons.ttf in Resources */,
-				630E38A6C63E44499577FE40 /* SimpleLineIcons.ttf in Resources */,
-				FF8F9A371D104707902CD459 /* Zocial.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -751,6 +721,7 @@
 			baseConfigurationReference = 9D1719384FF63E46ACD50275 /* Pods-SnuScraperClient.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SnuScraperClient/SnuScraperClient.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				INFOPLIST_FILE = SnuScraperClient/Info.plist;
@@ -771,6 +742,7 @@
 			baseConfigurationReference = 6D03865AAB38BD05686F127C /* Pods-SnuScraperClient.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SnuScraperClient/SnuScraperClient.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = SnuScraperClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
