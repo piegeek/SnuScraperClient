@@ -30,7 +30,9 @@ target 'SnuScraperClient' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
+
+  pod 'Firebase/Messaging'
 
   target 'SnuScraperClientTests' do
     inherit! :search_paths
