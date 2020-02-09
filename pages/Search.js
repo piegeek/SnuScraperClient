@@ -144,7 +144,12 @@ export default class Search extends Component {
     }
 
     static navigationOptions = {
-        title: '강좌 검색'
+        title: '강좌 검색',
+        headerBackTitle: '내 강좌',
+        headerTitleStyle: {
+            color: colors.black
+        },
+        headerTintColor: colors.yellow
     };
 }
 

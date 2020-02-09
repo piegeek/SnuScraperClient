@@ -1,6 +1,7 @@
 import React, { Fragment, Component } from 'react';
+import { Platform } from 'react-native';
 
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer, SafeAreaView } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -20,8 +21,8 @@ import Misc from './pages/Misc';
 
 const bugsnag = new Client(config.BUGSNAG_ID);
 
-const tabBarIconSize = 19
-const tabBarIconColor = colors.black
+const tabBarIconSize = Platform.OS === 'android' ? 19 : 25;
+const tabBarLabelShow = Platform.OS === 'android' ? true : false;
 
 const MainNavigator = createBottomTabNavigator(
   	{
@@ -29,28 +30,28 @@ const MainNavigator = createBottomTabNavigator(
 			screen: Home,
 			navigationOptions: {
 				tabBarLabel: '내 강좌',
-				tabBarIcon: <Icon name='home' size={tabBarIconSize} style={{ color: tabBarIconColor }}></Icon>
+				tabBarIcon: ({tintColor}) => <Icon name='home' size={tabBarIconSize} color={tintColor}></Icon>
 			},
 		},
       Stats: {
 			screen: Stats,
 			navigationOptions: {
 				tabBarLabel: '통계',
-				tabBarIcon: <Icon name='line-chart' size={tabBarIconSize} style={{ color: tabBarIconColor }}></Icon>
+				tabBarIcon: ({tintColor}) => <Icon name='line-chart' size={tabBarIconSize} color={tintColor}></Icon>
 			},
 		},
       Info: {
 			screen: Info,
 			navigationOptions: {
 				tabBarLabel: '사용법',
-				tabBarIcon: <Icon name='info-circle' size={tabBarIconSize} style={{ color: tabBarIconColor }}></Icon>
+				tabBarIcon: ({tintColor}) => <Icon name='info-circle' size={tabBarIconSize} color={tintColor}></Icon>
 			},
 		},
       Misc: {
 			screen: Misc,
 			navigationOptions: {
 				tabBarLabel: '더보기',
-				tabBarIcon: <Icon name='cog' size={tabBarIconSize} style={{ color: tabBarIconColor }}></Icon>
+				tabBarIcon: ({tintColor}) => <Icon name='cog' size={tabBarIconSize} color={tintColor}></Icon>
 			},
 		}
 	}, 
@@ -59,7 +60,13 @@ const MainNavigator = createBottomTabNavigator(
 		tabBarOptions: {
 			tabStyle: {
 				backgroundColor: colors.white
-			}
+			},
+			activeTintColor: colors.yellow,
+			inactiveTintColor: colors.grey,
+			safeAreaInset: {
+				bottom: 'never'
+			},
+			showLabel: tabBarLabelShow
 		}
 	}
 );
@@ -152,10 +159,15 @@ export default class App extends Component {
 		})
 	}
 	
+	// If background color to SafeAreaView is set => Make sure to set the background color to white on inner components to avoid overlay of colors
+
 	render() {
 		return (
 			<Fragment>
-    			<Navigation></Navigation>
+				<SafeAreaView style={{ flex: 0, backgroundColor: colors.white }} ></SafeAreaView>
+				<SafeAreaView style={{ flex: 1, backgroundColor: colors.white }}>
+					<Navigation></Navigation>
+				</SafeAreaView>
 				<FlashMessage position='bottom'></FlashMessage>
 			</Fragment>
 		);

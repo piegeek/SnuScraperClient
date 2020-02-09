@@ -7,7 +7,7 @@ import { colors } from '../styles/colors';
 export default class Stats extends Component {
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor: colors.white }}>
                 <Background></Background>
                 <View style={styles.container}>
                     <Text>준비중입니다</Text>

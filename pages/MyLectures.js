@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AppState, Text, View, StyleSheet, Image, ScrollView, Alert, TouchableHighlight } from 'react-native';
+import { AppState, Text, View, StyleSheet, Image, ScrollView, Alert, TouchableHighlight, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Client } from 'bugsnag-react-native';
@@ -239,16 +239,26 @@ export default class MyLectures extends Component {
         )
     }
 
-    static navigationOptions = {
-        title: [
+    static headerTitle = Platform.OS === 'android' ?
+        [
             <Icon name='notifications-active' style={{ color: colors.yellow, fontSize: 30 }}></Icon>,
-            <Text
-            style={{ fontWeight: 'bold', fontSize: 22 }}
-            >내 강좌</Text>
-        ],
-        headerStyle: {
-            height: 60,
-        },
+            <Text style={{ fontWeight: 'bold', fontSize: 22 }}>내 강좌</Text>
+        ]
+        :
+        <Icon name='notifications-active' size={38} style={{ color: colors.yellow }}></Icon>
+
+    static headerStyle = Platform.OS === 'android' ?
+    {
+        height: 60,
+        backgroundColor: colors.white
+    } :
+    {
+        backgroundColor: colors.white
+    }
+
+    static navigationOptions = {
+        title: this.headerTitle,
+        headerStyle: this.headerStyle,
     };
 }
 
@@ -271,7 +281,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 20,
         borderRadius: 10,
-        backgroundColor:'#fa2828',
+        backgroundColor: colors.red,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
