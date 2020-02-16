@@ -102,7 +102,12 @@ export default class LectureInfo extends Component {
     }
 
     static navigationOptions = {
-        title: '강좌 상세정보'
+        title: '강좌 상세정보',
+        headerBackTitle: ' ',
+        headerTitleStyle: {
+            color: colors.black
+        },
+        headerTintColor: colors.yellow
     };
 }
 

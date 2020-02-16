@@ -21,7 +21,11 @@ export default class Misc extends Component {
                         </View>
                         <View style={styles.textContainer}>
                             <Text style={styles.textTitle}>2. iOS도 지원되나요?</Text>
-                            <Text style={styles.textContent}>iOS 버전은 추후에 지원될 예정입니다</Text>
+                            <Text style={styles.textContent}>iOS도 이제 공식 지원됩니다</Text>
+                        </View>
+                        <View style={styles.textContainer}>
+                            <Text style={styles.textTitle}>3. 추후에도 계속 업데이트 될 예정인가요?</Text>
+                            <Text style={styles.textContent}>네 앞으로 계속 지원될 예정입니다</Text>
                         </View>
                     </View>
                 </ScrollView>
