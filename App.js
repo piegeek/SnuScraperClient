@@ -24,51 +24,68 @@ const bugsnag = new Client(config.BUGSNAG_ID);
 const tabBarIconSize = Platform.OS === 'android' ? 19 : 25;
 const tabBarLabelShow = Platform.OS === 'android' ? true : false;
 
-const MainNavigator = createBottomTabNavigator(
-  	{
-      Home: {
-			screen: Home,
-			navigationOptions: {
-				tabBarLabel: '내 강좌',
-				tabBarIcon: ({tintColor}) => <Icon name='home' size={tabBarIconSize} color={tintColor}></Icon>
-			},
+const homeTab = {
+	screen: Home,
+	navigationOptions: {
+		tabBarLabel: '내 강좌',
+		tabBarIcon: ({tintColor}) => <Icon name='home' size={tabBarIconSize} color={tintColor}></Icon>
+	},
+}
+
+const statsTab = {
+	screen: Stats,
+	navigationOptions: {
+		tabBarLabel: '통계',
+		tabBarIcon: ({tintColor}) => <Icon name='line-chart' size={tabBarIconSize} color={tintColor}></Icon>
+	},
+}
+
+const infoTab = {
+	screen: Info,
+	navigationOptions: {
+		tabBarLabel: '사용법',
+		tabBarIcon: ({tintColor}) => <Icon name='info-circle' size={tabBarIconSize} color={tintColor}></Icon>
+	},
+}
+
+const miscTab = {
+	screen: Misc,
+	navigationOptions: {
+		tabBarLabel: '더보기',
+		tabBarIcon: ({tintColor}) => <Icon name='cog' size={tabBarIconSize} color={tintColor}></Icon>
+	},
+}
+
+const tabOptions = {
+	initialRouteName: 'Home',
+	tabBarOptions: {
+		tabStyle: {
+			backgroundColor: colors.white
 		},
-      Stats: {
-			screen: Stats,
-			navigationOptions: {
-				tabBarLabel: '통계',
-				tabBarIcon: ({tintColor}) => <Icon name='line-chart' size={tabBarIconSize} color={tintColor}></Icon>
-			},
+		activeTintColor: colors.yellow,
+		inactiveTintColor: colors.grey,
+		safeAreaInset: {
+			bottom: 'never'
 		},
-      Info: {
-			screen: Info,
-			navigationOptions: {
-				tabBarLabel: '사용법',
-				tabBarIcon: ({tintColor}) => <Icon name='info-circle' size={tabBarIconSize} color={tintColor}></Icon>
-			},
-		},
-      Misc: {
-			screen: Misc,
-			navigationOptions: {
-				tabBarLabel: '더보기',
-				tabBarIcon: ({tintColor}) => <Icon name='cog' size={tabBarIconSize} color={tintColor}></Icon>
-			},
-		}
-	}, 
-	{
-		initialRouteName: 'Home',
-		tabBarOptions: {
-			tabStyle: {
-				backgroundColor: colors.white
-			},
-			activeTintColor: colors.yellow,
-			inactiveTintColor: colors.grey,
-			safeAreaInset: {
-				bottom: 'never'
-			},
-			showLabel: tabBarLabelShow
-		}
+		showLabel: tabBarLabelShow
 	}
+}
+
+const MainNavigator = Platform.OS === 'android' ? createBottomTabNavigator(
+  	{
+	  Home: homeTab,
+	  Stats: statsTab,
+	  Info: infoTab,
+	  Misc: miscTab
+	},
+	tabOptions
+) : createBottomTabNavigator(
+	{
+	  Home: homeTab,
+	  Info: infoTab,
+	  Misc: miscTab
+	},
+	tabOptions
 );
 
 const Navigation = createAppContainer(MainNavigator);

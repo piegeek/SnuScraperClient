@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         height: 70,
         width: '75%',
         borderRadius: 17,
-        borderWidth: 3,
+        borderWidth: 1.5,
         borderColor: colors.purple,
         display: 'flex',
         flexDirection: 'row',
