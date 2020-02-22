@@ -178,6 +178,8 @@ PODS:
     - React
   - RNCMaskedView (0.1.5):
     - React
+  - RNDeviceInfo (5.5.3):
+    - React
   - RNFirebase (5.6.0):
     - Firebase/Core
     - React
@@ -222,6 +224,7 @@ DEPENDENCIES:
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -301,6 +304,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNFirebase:
     :path: "../node_modules/react-native-firebase/ios"
   RNGestureHandler:
@@ -357,12 +362,13 @@ SPEC CHECKSUMS:
   React-RCTWebSocket: fca087d583724aa0e5fef7d911f0f2a28d0f2736
   RNCAsyncStorage: 8539fc80a0075fcc9c8e2dff84cd22dc5bf1dacf
   RNCMaskedView: c8b53164b85ecf94c9a44d67082df0f03c1f74cc
+  RNDeviceInfo: 67607dfe9cfbed105838144c40187a8392aa404d
   RNFirebase: 37daa9a346d070f9f6ee1f3b4aaf4c8e3b1d5d1c
   RNGestureHandler: 02905abe54e1f6e59c081a10b4bd689721e17aa6
   RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   yoga: 616fde658be980aa60a2158835170f3f9c2d04b4
 
-PODFILE CHECKSUM: 8b42b090de0fa5d74a023631bc3ce30882da39f0
+PODFILE CHECKSUM: d9a9fb92009f638d8ba35f1cbe8b80ac3c9053f9
 
 COCOAPODS: 1.8.4

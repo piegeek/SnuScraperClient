@@ -9,7 +9,7 @@ export default class Info extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <Background></Background>
+                <Background headerText='INFO'></Background>
                 <ScrollView style={styles.container}>
                     <View style={styles.infoContainer}>
                         <Text style={styles.title}>

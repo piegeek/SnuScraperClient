@@ -110,6 +110,7 @@ export default class MyLectures extends Component {
                     });
                 }));
             }
+            else { return; }
         }
         catch(err) {
             showMessage({
