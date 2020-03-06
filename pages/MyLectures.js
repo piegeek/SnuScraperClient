@@ -19,6 +19,7 @@ export default class MyLectures extends Component {
     constructor(props) {
         super(props);
         this.updateLectures = this.updateLectures.bind(this);
+        this.updateAllLectures = this.updateAllLectures.bind(this);
         this.navigateToSearch = this.navigateToSearch.bind(this);
         this.handleAppStateChange = this.handleAppStateChange.bind(this);
         this.storeData = this.storeData.bind(this);
@@ -39,7 +40,10 @@ export default class MyLectures extends Component {
         Checks if app is closed & restores data after every startup
         */
         AppState.addEventListener('change', this.handleAppStateChange);
-        this.recoverData();
+        this.recoverDataAsync().then(() => {
+            console.log('hi');
+            this.updateAllLectures();
+        });
     }
 
     updateLectures(lectureData) {
@@ -50,6 +54,44 @@ export default class MyLectures extends Component {
             this.storeData();
         }
 
+    }
+
+    async updateAllLectures() {
+        const lecturesToBeUpdated = [];
+
+        const lectureFutures = this.state.lectures.map(lectureData => {
+            return new Promise(async (res, rej) => {
+                try {
+                    const response = await fetch(config.SNUSCRAPER_API_URI + `/api/lectures/lectureId/${lectureData['_id']}`);
+                    if (response.status === 200) {
+                        const newLectureData = await response.json();
+                        lecturesToBeUpdated.push(newLectureData[0]);
+                        res();
+                    }
+                    else { rej() }
+                }
+                catch(err) {
+                    bugsnag.notify(err);
+                    rej();
+                }
+            });
+        });
+
+        try {
+            // Wait for all lectures to update
+            await Promise.all(lectureFutures);
+
+            this.setState({
+                lectures: lecturesToBeUpdated
+            });
+            this.storeData();
+        }
+        catch(err) {
+            showMessage({
+                message: '강좌를 새로 업데이트 하지 못했습니다.',
+                type: 'warning'
+            });
+        }
     }
 
     async deleteLectures(lectureData) {
@@ -74,7 +116,11 @@ export default class MyLectures extends Component {
             }
         }
         catch(err) {            
-            bugsnag.notify(err);
+            showMessage({
+                message: '오류가 발생했습니다. 다시 시도해주세요.',
+                type: 'warning'
+            });
+            return bugsnag.notify(err);
         }
 
         // Deletes lecture no matter what
@@ -117,7 +163,7 @@ export default class MyLectures extends Component {
                 message: '오류가 발생했습니다. 다시 시도해주세요.',
                 type: 'warning'
             });
-            bugsnag.notify(err);
+            return bugsnag.notify(err);
         }
 
         this.setState({
@@ -172,6 +218,28 @@ export default class MyLectures extends Component {
             }
         })
         .catch(err => bugsnag.notify(err))
+    }
+
+    recoverDataAsync = () => {
+        return new Promise(async (res, rej)=> {
+            try {
+                const lecturesArr = await AsyncStorage.getItem('lectures');
+                if (lecturesArr) {
+                    this.setState({
+                        lectures: JSON.parse(lecturesArr)
+                    });
+                    res();
+                }
+                else {
+                    console.log('No lectures');
+                    rej();
+                }
+            }
+            catch(err) {
+                rej();
+                bugsnag.notify(err);
+            }
+        });
     }
 
     updateData(newData) {
