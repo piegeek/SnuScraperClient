@@ -16,7 +16,8 @@ export default class Search extends Component {
     constructor(props) {
         super(props);
         this.addLectureAlert = this.addLectureAlert.bind(this);
-        this.loadingHandler = this.loadingHandler.bind(this);
+        this.setLoadingTrue = this.setLoadingTrue.bind(this);
+        this.setLoadingFalse = this.setLoadingFalse.bind(this);
         this.navigateToLectureInfo = this.navigateToLectureInfo.bind(this);
         this.state = {
             lectures: [],
@@ -41,11 +42,19 @@ export default class Search extends Component {
                 lectures: [...this.state.lectures, result]
             })
         });
+        
+        this.setLoadingFalse();
     }
 
-    loadingHandler() {
+    setLoadingTrue() {
         this.setState({
-            loading: !this.state.loading
+            loading: true
+        });
+    }
+
+    setLoadingFalse() {
+        this.setState({
+            loading: false
         });
     }
 
@@ -115,7 +124,7 @@ export default class Search extends Component {
             <View style={{ flex: 1 }}>
                 <ScrollView style={styles.container}>
                     <View style={styles.textSearchContainer}>
-                        <TextSearch loadingHandler={this.loadingHandler} getSearchResults={this.getSearchResults.bind(this)}></TextSearch>
+                        <TextSearch setLoadingTrue={this.setLoadingTrue} getSearchResults={this.getSearchResults.bind(this)}></TextSearch>
                     </View>
                     <View>
                         { this.state.loading
@@ -158,8 +167,4 @@ const styles = StyleSheet.create({
         backgroundColor: colors.extraLightPurple,
         padding: 11
     },
-
-    textSearchContainer: {
-        marginTop: 10
-    }
 });

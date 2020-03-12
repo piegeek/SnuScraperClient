@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     
     title: {
         color: colors.yellow,
-        fontSize: 40,
+        fontSize: 30,
         fontWeight: 'bold',
         textAlign: 'center',
     },
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     },
 
     textTitle: {
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: 'bold'
     },
 

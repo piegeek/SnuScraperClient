@@ -29,14 +29,16 @@ export default class SearchLecture extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.columnLeft}>
-                    <Text style={styles.subjectName}>{ this.state.lectureData['교과목명'] }</Text>
-                    <Text style={styles.subjectNumber}>
-                        { (parseInt(this.state.lectureData['강좌번호']) >= 0 && parseInt(this.state.lectureData['강좌번호']) <= 9) 
-                            ? this.state.lectureData['교과목번호'] + ' (00' + this.state.lectureData['강좌번호'] + ')'
-                            : this.state.lectureData['교과목번호'] + ' (0' + this.state.lectureData['강좌번호'] + ')'
-                        }
-                    </Text>
-                    <Button onPress={this.navigateButtonPressed} color={colors.yellow} text='강좌 상세 정보' imageUri={chevronRight}></Button>
+                    <View style={styles.subjectInfo}>
+                        <Text style={styles.subjectName}>{ this.state.lectureData['교과목명'] }</Text>
+                        <Text style={styles.subjectNumber}>
+                            { (parseInt(this.state.lectureData['강좌번호']) >= 0 && parseInt(this.state.lectureData['강좌번호']) <= 9) 
+                                ? this.state.lectureData['교과목번호'] + ' (00' + this.state.lectureData['강좌번호'] + ')'
+                                : this.state.lectureData['교과목번호'] + ' (0' + this.state.lectureData['강좌번호'] + ')'
+                            }
+                        </Text>
+                        <Button onPress={this.navigateButtonPressed} color={colors.yellow} text='강좌 상세 정보' imageUri={chevronRight}></Button>
+                    </View>
                 </View>
                 <View style={styles.columnRight}>
                     <TouchableHighlight style={styles.addButton} onPress={this.addButtonPressed}>
@@ -55,6 +57,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         minHeight: 130,
         marginTop: 10,
+        paddingTop: 10,
+        paddingBottom: 10,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
@@ -62,12 +66,22 @@ const styles = StyleSheet.create({
     },
 
     columnLeft: {
+        width: '65%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
 
     columnRight: {
+        width: '35%',
         display: 'flex',
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    subjectInfo: {
+        width: '85%'
     },
 
     subjectName: {
@@ -86,7 +100,7 @@ const styles = StyleSheet.create({
         height: 72,
         width: 72,
         borderRadius: 35,
-        marginLeft: 40,
+        // marginLeft: 40,
         backgroundColor: colors.orange,
         display: 'flex',
         flexDirection: 'row',

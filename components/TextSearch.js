@@ -14,6 +14,8 @@ const bugsnag = new Client(config.BUGSNAG_ID);
 export default class TextSearch extends Component {
     constructor(props) {
         super(props);
+        this.handleChangeText = this.handleChangeText.bind(this);
+        this.handlePress = this.handlePress.bind(this);
         this.state = {
             text: ''
         };
@@ -31,9 +33,8 @@ export default class TextSearch extends Component {
             ? config.SNUSCRAPER_API_URI + '/api/lectures/code/' + this.state.text
             : config.SNUSCRAPER_API_URI + '/api/lectures/title/' + this.state.text
 
-            this.props.loadingHandler();
+            this.props.setLoadingTrue();
             const res = await fetch(uri);
-            this.props.loadingHandler();
 
             if (res.status === 200) {
                 const lectures = await res.json();
@@ -59,10 +60,10 @@ export default class TextSearch extends Component {
     render() {
         return (
             <View style={styles.searchBarContainer}>
-                <TextSearchBar handleChangeText={this.handleChangeText.bind(this)}></TextSearchBar>
-                <TouchableHighlight style={styles.submitButton} onPress={this.handlePress.bind(this)}>
-                    <Icon name='search' size={26} style={styles.searchIcon}></Icon>
-                </TouchableHighlight>
+                <TextSearchBar handleChangeText={this.handleChangeText} handleEnterPressed={this.handlePress}></TextSearchBar>
+                {/* <TouchableHighlight style={styles.submitButton} onPress={this.handlePress}>
+                    <Icon name='search' size={23} style={styles.searchIcon}></Icon>
+                </TouchableHighlight> */}
             </View>
         )
     }
@@ -77,9 +78,9 @@ const styles = StyleSheet.create({
     },
 
     submitButton: {
-        height: 60,
-        width: 60,
-        borderRadius: 29,
+        height: 50,
+        width: 50,
+        borderRadius: 24,
         marginLeft: 14,
         backgroundColor: colors.purple,
         display: 'flex',
