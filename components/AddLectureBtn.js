@@ -23,9 +23,9 @@ export default class AddLectureBtn extends Component {
 
 styles = StyleSheet.create({
     container: {
-        height: 87,
+        height: 67,
         width: '100%',
-        borderRadius: 27,
+        borderRadius: 13,
         backgroundColor: colors.purple,
         display: 'flex',
         justifyContent: 'center',
@@ -47,8 +47,8 @@ styles = StyleSheet.create({
 
     circleImg: {
         resizeMode: 'contain',
-        height: 53,
-        width: 53,
+        height: 40,
+        width: 40,
         marginLeft: 20
     },
 });
