@@ -11,6 +11,7 @@ import { config } from '../config';
 import AddLectureBtn from '../components/AddLectureBtn';
 import DeleteAllLecturesBtn from '../components/DeleteAllLecturesBtn';
 import HomeLecture from '../components/HomeLecture';
+import SeasonYearPicker from '../components/SeasonYearPicker';
 import { createKeyboardAwareNavigator } from 'react-navigation';
 
 const bugsnag = new Client(config.BUGSNAG_ID);
@@ -277,6 +278,7 @@ export default class MyLectures extends Component {
             <View style={{ flex: 1 }}>
                 <ScrollView style={styles.container}>                    
                     <View style={styles.buttonContainer}>
+                        <SeasonYearPicker year={2020} season={'1학기'}></SeasonYearPicker>
                         <AddLectureBtn onPress={this.navigateToSearch}></AddLectureBtn>
                     </View>
 
