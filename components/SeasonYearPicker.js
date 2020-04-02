@@ -7,11 +7,13 @@ export default class SeasonYearPicker extends Component {
     constructor(props) {
         super(props);
         this.seasonYearCombinator = this.seasonYearCombinator.bind(this);
+        this.valueChangeHandler = this.valueChangeHandler.bind(this);
         this.state={
             season: this.props.season,
             year: this.props.year,
         };
-        this.state.seasonYearComb = this.seasonYearCombinator();
+
+        this.seasonYearComb = this.seasonYearCombinator();
     }
 
     seasonYearCombinator() {
@@ -20,10 +22,9 @@ export default class SeasonYearPicker extends Component {
         
         for (let i = 0; i < 5; i++) {
             for (const _season of seasons) {
-                
                 seasonYearComb.push({
                     season: _season,
-                    year: parseInt(this.state.year) - i
+                    year: parseInt(this.state.year) - i,
                 });
             }
         }
@@ -31,14 +32,24 @@ export default class SeasonYearPicker extends Component {
         return seasonYearComb;
     }
 
+    valueChangeHandler(itemValue) {
+        const value = JSON.parse(itemValue);
+        
+        this.setState({
+            season: value.season,
+            year: value.year
+        });
+    }
+
     render() {
         return (
             <View>
                 <Picker
-                selectedValue={`${this.state.year}-${this.state.season}`}
+                selectedValue={JSON.stringify(this.state)}
                 style={styles.pickerStyle}
+                onValueChange={this.valueChangeHandler}
                 >
-                    { this.state.seasonYearComb.map(comb => <Picker.Item key={`${comb.year}-${comb.season}`} label={`${comb.year} ${comb.season}`} value={comb}></Picker.Item>) }
+                    { this.seasonYearComb.map((comb, i) => <Picker.Item key={i} label={`${comb.year} ${comb.season}`} value={JSON.stringify(comb)}></Picker.Item>) }
                 </Picker>
             </View>
         )

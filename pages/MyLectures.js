@@ -30,9 +30,13 @@ export default class MyLectures extends Component {
         this.deleteLectureAlert = this.deleteLectureAlert.bind(this);
         this.navigateToLectureInfo = this.navigateToLectureInfo.bind(this);
         this.deleteAllLectures = this.deleteAllLectures.bind(this);
+        this.setSeasonYear = this.setSeasonYear.bind(this);
         this.state = {
             lectures: [],
-            appState: AppState.currentState
+            appState: AppState.currentState,
+            pickSeasonYear: true,
+            season: null,
+            year: null
         };
     }
 
@@ -273,12 +277,18 @@ export default class MyLectures extends Component {
         });
     }
 
+    setSeasonYear(lecturesSeason, lecturesYear) {
+        this.setState({
+            season: lecturesSeason,
+            year: lecturesYear
+        });
+    }
+
     render() {
         return (
             <View style={{ flex: 1 }}>
                 <ScrollView style={styles.container}>                    
                     <View style={styles.buttonContainer}>
-                        <SeasonYearPicker year={2020} season={'1학기'}></SeasonYearPicker>
                         <AddLectureBtn onPress={this.navigateToSearch}></AddLectureBtn>
                     </View>
 
@@ -306,17 +316,23 @@ export default class MyLectures extends Component {
                         }
                     </View>
                 </ScrollView>
+                { 
+                    this.state.pickSeasonYear 
+                    ?   <SeasonYearPicker setSeasonYear={this.setSeasonYear} style={styles.pickerContainer} year={2020} season={'1학기'}></SeasonYearPicker>
+                    : null
+                }
             </View>
         )
     }
 
-    static headerTitle = Platform.OS === 'android' ?
-        [
-            <Icon name='notifications-active' style={{ color: colors.yellow, fontSize: 30 }}></Icon>,
-            <Text style={{ fontWeight: 'bold', fontSize: 22 }}>내 강좌</Text>
-        ]
-        :
-        <Icon name='notifications-active' size={38} style={{ color: colors.yellow }}></Icon>
+    // static headerTitle = Platform.OS === 'android' ?
+        // [
+        //     <Icon name='notifications-active' style={{ color: colors.yellow, fontSize: 30 }}></Icon>,
+        //     <Text style={{ fontWeight: 'bold', fontSize: 22 }}>내 강좌</Text>
+        // ]
+        // :
+        // <Icon name='notifications-active' size={38} style={{ color: colors.yellow }}></Icon>
+
 
     static headerStyle = Platform.OS === 'android' ?
     {
@@ -345,6 +361,11 @@ const styles = StyleSheet.create({
         color: colors.orange,
         textAlign: 'center',
     },
+
+    // pickerContainer: {
+    //     position: 'absolute',
+    //     bottom: 0
+    // },
 
     deleteAllBtn: {
         width: '100%',
