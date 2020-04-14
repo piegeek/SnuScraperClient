@@ -12,6 +12,7 @@ import AddLectureBtn from '../components/AddLectureBtn';
 import DeleteAllLecturesBtn from '../components/DeleteAllLecturesBtn';
 import HomeLecture from '../components/HomeLecture';
 import SeasonYearPicker from '../components/SeasonYearPicker';
+import HeaderBtn from '../components/HeaderBtn';
 import { createKeyboardAwareNavigator } from 'react-navigation';
 
 const bugsnag = new Client(config.BUGSNAG_ID);
@@ -30,7 +31,11 @@ export default class MyLectures extends Component {
         this.deleteLectureAlert = this.deleteLectureAlert.bind(this);
         this.navigateToLectureInfo = this.navigateToLectureInfo.bind(this);
         this.deleteAllLectures = this.deleteAllLectures.bind(this);
+        this.storeSeasonYear = this.storeSeasonYear.bind(this);
         this.setSeasonYear = this.setSeasonYear.bind(this);
+        this.loadSeasonYear = this.loadSeasonYear.bind(this);
+        this.setPickSeasonYear = this.setPickSeasonYear.bind(this);
+
         this.state = {
             lectures: [],
             appState: AppState.currentState,
@@ -45,6 +50,7 @@ export default class MyLectures extends Component {
         Checks if app is closed & restores data after every startup
         */
         AppState.addEventListener('change', this.handleAppStateChange);
+        this.loadSeasonYear();
         this.recoverDataAsync().then(() => {
             console.log('hi');
             this.updateAllLectures();
@@ -210,6 +216,38 @@ export default class MyLectures extends Component {
         .then(() => console.log('Lectures saved to local storage'))
     }
 
+    // TODO: Error catching
+    async storeSeasonYear() {
+        await AsyncStorage.setItem('seasonYear', JSON.stringify([
+            this.state.season,
+            this.state.year
+        ]));
+    }
+
+    // TODO: Error catching
+    async loadSeasonYear() {
+        const seasonYear = await AsyncStorage.getItem('seasonYear');
+        if (seasonYear[0] !== null && seasonYear[1] !== null) {
+            this.setState({
+                season: seasonYear[0],
+                year: seasonYear[1]
+            });
+        }
+    }
+
+    setSeasonYear(lecturesSeason, lecturesYear) {
+        this.setState({
+            season: lecturesSeason,
+            year: lecturesYear
+        });
+    }
+
+    setPickSeasonYear(setFlag) {
+        this.setState({
+            pickSeasonYear: setFlag
+        });
+    }
+
     recoverData() {
         AsyncStorage.getItem('lectures')
         .then(lecturesArr => {
@@ -271,18 +309,13 @@ export default class MyLectures extends Component {
         if (this.state.appState=='active' && nextAppState.match(/inactive|background/)) {
             console.log('Went from active to inactive');
             this.storeData();
+            this.storeSeasonYear();
         }
         this.setState({
             appState: nextAppState
         });
     }
 
-    setSeasonYear(lecturesSeason, lecturesYear) {
-        this.setState({
-            season: lecturesSeason,
-            year: lecturesYear
-        });
-    }
 
     render() {
         return (
@@ -318,7 +351,7 @@ export default class MyLectures extends Component {
                 </ScrollView>
                 { 
                     this.state.pickSeasonYear 
-                    ?   <SeasonYearPicker setSeasonYear={this.setSeasonYear} style={styles.pickerContainer} year={2020} season={'1학기'}></SeasonYearPicker>
+                    ?   <SeasonYearPicker setPickSeasonYear={this.setPickSeasonYear} setSeasonYear={this.setSeasonYear} style={styles.pickerContainer} year={2020} season={'1학기'}></SeasonYearPicker>
                     : null
                 }
             </View>
@@ -326,13 +359,12 @@ export default class MyLectures extends Component {
     }
 
     // static headerTitle = Platform.OS === 'android' ?
-        // [
-        //     <Icon name='notifications-active' style={{ color: colors.yellow, fontSize: 30 }}></Icon>,
-        //     <Text style={{ fontWeight: 'bold', fontSize: 22 }}>내 강좌</Text>
-        // ]
-        // :
-        // <Icon name='notifications-active' size={38} style={{ color: colors.yellow }}></Icon>
-
+    //     [
+    //         <Icon name='notifications-active' style={{ color: colors.yellow, fontSize: 30 }}></Icon>,
+    //         <Text style={{ fontWeight: 'bold', fontSize: 22 }}>내 강좌</Text>
+    //     ]
+    //     :
+    //     <Icon name='notifications-active' size={33} style={{ color: colors.yellow }}></Icon>
 
     static headerStyle = Platform.OS === 'android' ?
     {
@@ -343,9 +375,13 @@ export default class MyLectures extends Component {
         backgroundColor: colors.white
     }
 
-    static navigationOptions = {
-        title: this.headerTitle,
-        headerStyle: this.headerStyle,
+    static headerTitle = () => <HeaderBtn height={30} text='2019 2학기' icon={<Icon name='expand-more' size={30} style={{ color: colors.yellow }}></Icon>}></HeaderBtn>
+
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitle: this.headerTitle,
+            headerStyle: this.headerStyle
+        };
     };
 }
 

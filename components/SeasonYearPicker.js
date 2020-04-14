@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
-import { View, Picker, StyleSheet } from 'react-native'
+import { View, Picker, StyleSheet, Platform } from 'react-native'
 
 import { colors } from '../styles/colors';
+
+import FullWidthBtn from '../components/FullWidthBtn';
 
 export default class SeasonYearPicker extends Component {
     constructor(props) {
         super(props);
         this.seasonYearCombinator = this.seasonYearCombinator.bind(this);
         this.valueChangeHandler = this.valueChangeHandler.bind(this);
+        this.valueConfirmHandler = this.valueConfirmHandler.bind(this);
+        this.cancelHandler = this.cancelHandler.bind(this);
         this.state={
             season: this.props.season,
             year: this.props.year,
@@ -41,9 +45,17 @@ export default class SeasonYearPicker extends Component {
         });
     }
 
+    valueConfirmHandler() {
+        this.props.setSeasonYear(this.state.season, this.state.year);
+    }
+
+    cancelHandler() {
+        this.props.setPickSeasonYear(false);
+    }
+
     render() {
         return (
-            <View>
+            <View style={styles.pickerContainerStyle}>
                 <Picker
                 selectedValue={JSON.stringify(this.state)}
                 style={styles.pickerStyle}
@@ -51,13 +63,37 @@ export default class SeasonYearPicker extends Component {
                 >
                     { this.seasonYearComb.map((comb, i) => <Picker.Item key={i} label={`${comb.year} ${comb.season}`} value={JSON.stringify(comb)}></Picker.Item>) }
                 </Picker>
+                <View style={styles.buttonContainer}>
+                    <FullWidthBtn
+                    color={colors.yellow}
+                    text='취소'
+                    width='50%'
+                    handlePress={this.cancelHandler}
+                    ></FullWidthBtn>
+                    <FullWidthBtn
+                    color={colors.orange}
+                    text='선택완료'
+                    width='50%'
+                    handlePress={this.valueConfirmHandler}
+                    ></FullWidthBtn>
+                </View>
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
+    pickerContainerStyle: {
+        backgroundColor: colors.white
+    },
+    
     pickerStyle: {
         backgroundColor: colors.white,
+    },
+
+    buttonContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     }
 });
