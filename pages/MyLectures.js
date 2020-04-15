@@ -34,8 +34,9 @@ export default class MyLectures extends Component {
         this.storeSeasonYear = this.storeSeasonYear.bind(this);
         this.setSeasonYear = this.setSeasonYear.bind(this);
         this.loadSeasonYear = this.loadSeasonYear.bind(this);
-        this.setPickSeasonYear = this.setPickSeasonYear.bind(this);
-
+        this.showPickSeasonYear = this.showPickSeasonYear.bind(this);
+        this.hidePickSeasonYear = this.hidePickSeasonYear.bind(this);
+        
         this.state = {
             lectures: [],
             appState: AppState.currentState,
@@ -242,9 +243,15 @@ export default class MyLectures extends Component {
         });
     }
 
-    setPickSeasonYear(setFlag) {
+    showPickSeasonYear() {
         this.setState({
-            pickSeasonYear: setFlag
+            pickSeasonYear: true
+        });
+    }
+    
+    hidePickSeasonYear() {
+    this.setState({
+        pickSeasonYear: false
         });
     }
 
@@ -351,7 +358,7 @@ export default class MyLectures extends Component {
                 </ScrollView>
                 { 
                     this.state.pickSeasonYear 
-                    ?   <SeasonYearPicker setPickSeasonYear={this.setPickSeasonYear} setSeasonYear={this.setSeasonYear} style={styles.pickerContainer} year={2020} season={'1학기'}></SeasonYearPicker>
+                    ?   <SeasonYearPicker hidePickSeasonYear={this.hidePickSeasonYear} setSeasonYear={this.setSeasonYear} style={styles.pickerContainer} year={2020} season={'1학기'}></SeasonYearPicker>
                     : null
                 }
             </View>
@@ -375,7 +382,7 @@ export default class MyLectures extends Component {
         backgroundColor: colors.white
     }
 
-    static headerTitle = () => <HeaderBtn height={30} text='2019 2학기' icon={<Icon name='expand-more' size={30} style={{ color: colors.yellow }}></Icon>}></HeaderBtn>
+    static headerTitle = () => <HeaderBtn height={30} text='2019 2학기' icon={<Icon name='arrow-drop-down' size={30} style={{ color: colors.yellow }}></Icon>}></HeaderBtn>
 
     static navigationOptions = ({ navigation }) => {
         return {

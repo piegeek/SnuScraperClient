@@ -50,7 +50,7 @@ export default class SeasonYearPicker extends Component {
     }
 
     cancelHandler() {
-        this.props.setPickSeasonYear(false);
+        this.props.hidePickSeasonYear();
     }
 
     render() {

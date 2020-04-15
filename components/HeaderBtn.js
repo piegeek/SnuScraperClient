@@ -10,6 +10,7 @@ export default class HeaderBtn extends Component {
     }
 
     handlePress(e) {
+        // this.props.pressHandler();
         alert('hi');
     }
     
