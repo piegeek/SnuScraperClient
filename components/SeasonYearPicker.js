@@ -47,6 +47,7 @@ export default class SeasonYearPicker extends Component {
 
     valueConfirmHandler() {
         this.props.setSeasonYear(this.state.season, this.state.year);
+        this.props.hidePickSeasonYear();
     }
 
     cancelHandler() {

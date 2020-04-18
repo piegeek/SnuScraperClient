@@ -51,6 +51,10 @@ export default class MyLectures extends Component {
         Checks if app is closed & restores data after every startup
         */
         AppState.addEventListener('change', this.handleAppStateChange);
+        // Allow react navigation to use function this.showPickSeasonYear and states season, year
+        this.props.navigation.setParams({
+            showPickSeasonYear: this.showPickSeasonYear,
+        });
         this.loadSeasonYear();
         this.recoverDataAsync().then(() => {
             console.log('hi');
@@ -217,29 +221,46 @@ export default class MyLectures extends Component {
         .then(() => console.log('Lectures saved to local storage'))
     }
 
-    // TODO: Error catching
     async storeSeasonYear() {
-        await AsyncStorage.setItem('seasonYear', JSON.stringify([
-            this.state.season,
-            this.state.year
-        ]));
+        try {
+            await AsyncStorage.setItem('seasonYear', JSON.stringify([
+                this.state.season,
+                this.state.year
+            ]));
+        }
+        catch(err) {
+            return bugsnag.notify(err);
+        }        
     }
 
-    // TODO: Error catching
+    // TODO: Load seasonYear from server if not stored on device
     async loadSeasonYear() {
-        const seasonYear = await AsyncStorage.getItem('seasonYear');
-        if (seasonYear[0] !== null && seasonYear[1] !== null) {
-            this.setState({
-                season: seasonYear[0],
-                year: seasonYear[1]
+        try {
+            const savedSeasonYear = await AsyncStorage.getItem('seasonYear');
+            const seasonYear = JSON.parse(savedSeasonYear);
+            if (seasonYear[0] !== null && seasonYear[1] !== null) {
+                this.setSeasonYear(seasonYear[0], seasonYear[1]);
+            }
+        }
+        catch(err) {
+            showMessage({
+                message: '학기정보를 읽어오지 못했습니다. 앱을 종료했다가 다시 시도해주세요.',
+                type: 'error'
             });
+            return bugsnag.notify(err);
         }
     }
 
     setSeasonYear(lecturesSeason, lecturesYear) {
+        // Change component's season, year state and update navigation's season, year accordingly
         this.setState({
             season: lecturesSeason,
             year: lecturesYear
+        }, () => {
+            this.props.navigation.setParams({
+                season: this.state.season,
+                year: this.state.year
+            });
         });
     }
 
@@ -250,9 +271,9 @@ export default class MyLectures extends Component {
     }
     
     hidePickSeasonYear() {
-    this.setState({
-        pickSeasonYear: false
-        });
+        this.setState({
+            pickSeasonYear: false
+            });
     }
 
     recoverData() {
@@ -382,11 +403,10 @@ export default class MyLectures extends Component {
         backgroundColor: colors.white
     }
 
-    static headerTitle = () => <HeaderBtn height={30} text='2019 2학기' icon={<Icon name='arrow-drop-down' size={30} style={{ color: colors.yellow }}></Icon>}></HeaderBtn>
 
     static navigationOptions = ({ navigation }) => {
         return {
-            headerTitle: this.headerTitle,
+            headerTitle: () => <HeaderBtn pressHandler={navigation.getParam('showPickSeasonYear')} height={30} text={`${navigation.getParam('year')} ${navigation.getParam('season')}`} icon={<Icon name='arrow-drop-down' size={30} style={{ color: colors.yellow }}></Icon>}></HeaderBtn>,
             headerStyle: this.headerStyle
         };
     };
