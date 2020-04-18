@@ -34,13 +34,14 @@ export default class MyLectures extends Component {
         this.storeSeasonYear = this.storeSeasonYear.bind(this);
         this.setSeasonYear = this.setSeasonYear.bind(this);
         this.loadSeasonYear = this.loadSeasonYear.bind(this);
+        this.fetchSeasonYear = this.fetchSeasonYear.bind(this);
         this.showPickSeasonYear = this.showPickSeasonYear.bind(this);
         this.hidePickSeasonYear = this.hidePickSeasonYear.bind(this);
         
         this.state = {
             lectures: [],
             appState: AppState.currentState,
-            pickSeasonYear: true,
+            pickSeasonYear: false,
             season: null,
             year: null
         };
@@ -179,7 +180,7 @@ export default class MyLectures extends Component {
                 message: '오류가 발생했습니다. 다시 시도해주세요.',
                 type: 'warning'
             });
-            return bugsnag.notify(err);
+            bugsnag.notify(err);
         }
 
         this.setState({
@@ -229,17 +230,23 @@ export default class MyLectures extends Component {
             ]));
         }
         catch(err) {
-            return bugsnag.notify(err);
+            bugsnag.notify(err);
         }        
     }
 
-    // TODO: Load seasonYear from server if not stored on device
     async loadSeasonYear() {
         try {
             const savedSeasonYear = await AsyncStorage.getItem('seasonYear');
             const seasonYear = JSON.parse(savedSeasonYear);
-            if (seasonYear[0] !== null && seasonYear[1] !== null) {
+            if (seasonYear[0] && seasonYear[1]) {
                 this.setSeasonYear(seasonYear[0], seasonYear[1]);
+            }
+            // seasonYear is not stored on device
+            else {
+                const seasonYear = await this.fetchSeasonYear();
+                if (seasonYear[0] && seasonYear[1]) {
+                    this.setSeasonYear(seasonYear[0], seasonYear[1]);
+                }
             }
         }
         catch(err) {
@@ -247,7 +254,22 @@ export default class MyLectures extends Component {
                 message: '학기정보를 읽어오지 못했습니다. 앱을 종료했다가 다시 시도해주세요.',
                 type: 'error'
             });
-            return bugsnag.notify(err);
+            bugsnag.notify(err);
+        }
+    }
+
+    async fetchSeasonYear() {
+        try {
+            const fetchedData = await fetch(config.SNUSCRAPER_API_URI + '/api/registered/lectures/season-year/');
+            const seasonYear = await fetchedData.json();
+            return [seasonYear.season, seasonYear.year];
+        }
+        catch(err) {
+            showMessage({
+                message: '서버에서 학기정보를 가져오지 못했습니다. 앱을 종료하고 다시 시도해주세요',
+                type: 'error'
+            });
+            bugsnag.notify(err); 
         }
     }
 
