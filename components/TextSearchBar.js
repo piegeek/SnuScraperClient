@@ -26,7 +26,7 @@ export default class TextSearchBar extends Component {
                 onSubmitEditing={this.props.handleEnterPressed}
                 multiline={false}   
                 ></TextInput>
-                <Icon name='search' size={23} style={styles.searchIcon}></Icon>
+                <Icon name='search' size={20} style={styles.searchIcon}></Icon>
             </View>
         )
     }
@@ -35,7 +35,7 @@ export default class TextSearchBar extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.lightGrey,
-        height: 50,
+        height: 40,
         borderRadius: 10,
         display: 'flex',
         flexDirection: 'row',

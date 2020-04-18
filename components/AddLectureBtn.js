@@ -23,7 +23,7 @@ export default class AddLectureBtn extends Component {
 
 styles = StyleSheet.create({
     container: {
-        height: 67,
+        height: 60,
         width: '100%',
         borderRadius: 13,
         backgroundColor: colors.purple,
