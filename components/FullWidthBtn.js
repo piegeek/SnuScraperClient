@@ -7,6 +7,11 @@ export default class FullWidthBtn extends Component {
     constructor(props) {
         super(props);
         this.handlePress = this.handlePress.bind(this);
+        this.state = {
+            containerStyle: this.props.containerStyle,
+            buttonStyle: this.props.buttonStyle,
+            buttonTextStyle: this.props.buttonTextStyle
+        };
     }
     
     handlePress(e) {
@@ -17,13 +22,13 @@ export default class FullWidthBtn extends Component {
         return (
             <TouchableHighlight
             onPress={this.handlePress}
-            style={{
+            style={ this.state.containerStyle || {
                 height: 45,
                 width: this.props.width,
             }}
             >
                 <View
-                style={{
+                style={ this.state.buttonStyle || {
                     backgroundColor: this.props.color,
                     display: 'flex',
                     height: '100%',
@@ -33,7 +38,7 @@ export default class FullWidthBtn extends Component {
                     alignItems: 'center',
                 }}
                 >
-                    <Text style={styles.buttonText}>{ this.props.text }</Text>
+                    <Text style={ this.state.buttonTextStyle || styles.buttonText}>{ this.props.text }</Text>
                 </View>
             </TouchableHighlight>
         )

@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import { Platform } from 'react-native';
 
-import { createAppContainer, SafeAreaView } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -9,6 +9,7 @@ import FlashMessage from 'react-native-flash-message';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import firebase from 'react-native-firebase';
 import { Client } from 'bugsnag-react-native';
+import { createStackNavigator } from 'react-navigation-stack';
 
 import { colors } from './styles/colors';
 import { config } from './config';
@@ -18,6 +19,7 @@ import Exchange from './pages/Exchange';
 import Stats from './pages/Stats';
 import Info from './pages/Info';
 import Misc from './pages/Misc';
+import Auth from './pages/Auth';
 
 const bugsnag = new Client(config.BUGSNAG_ID);
 
@@ -88,11 +90,33 @@ const MainNavigator = Platform.OS === 'android' ? createBottomTabNavigator(
 	tabOptions
 );
 
-const Navigation = createAppContainer(MainNavigator);
+const authScreen = {
+	screen: Auth,
+};
+
+const AuthNavigator = createStackNavigator({
+	Auth: authScreen
+});
+
+// const Navigation = createAppContainer(MainNavigator);
+const Navigation = createAppContainer(
+	createSwitchNavigator(
+		{
+			AuthRoute: AuthNavigator,
+			MainRoute: MainNavigator
+		},
+		{
+			initialRouteName: 'AuthRoute'
+		}
+	)
+);
 
 export default class App extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			loggedIn: true
+		};
 	}
 
 	componentDidMount() {

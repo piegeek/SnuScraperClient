@@ -9,5 +9,6 @@ export const colors = {
     lightPurple: 'rgba(54, 63, 143, 0.51)',
     extraLightPurple: 'rgba(54, 63, 143, 0.17)',
     purple: '#363F8F',
+    skyBlue: '#87CEEB'
 
 }

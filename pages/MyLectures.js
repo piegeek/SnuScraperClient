@@ -58,7 +58,6 @@ export default class MyLectures extends Component {
         });
         this.loadSeasonYear();
         this.recoverDataAsync().then(() => {
-            console.log('hi');
             this.updateAllLectures();
         });
     }
@@ -70,7 +69,6 @@ export default class MyLectures extends Component {
             });
             this.storeData();
         }
-
     }
 
     async updateAllLectures() {
