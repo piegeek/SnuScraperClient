@@ -106,7 +106,7 @@ const Navigation = createAppContainer(
 			MainRoute: MainNavigator
 		},
 		{
-			initialRouteName: 'MainRoute'
+			initialRouteName: 'AuthRoute'
 		}
 	)
 );

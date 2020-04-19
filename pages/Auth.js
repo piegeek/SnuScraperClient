@@ -29,7 +29,7 @@ export default class Auth extends Component {
     }
 
     static navigationOptions = {
-        header: null
+        headerShown: false
     };
 }
 
