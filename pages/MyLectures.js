@@ -22,7 +22,11 @@ import { setAppStateActive, setAppStateInactive } from '../actions/appState';
 import { addLecture, removeLecture } from '../actions/lectures';
 import { setSeasonYear, pickSeasonYear } from '../actions/seasonYear';
 
+// Import stylesheet
+import MyLecturesStyles from '../styles/pageStyles/MyLecturesStyles';
+
 const bugsnag = new Client(config.BUGSNAG_ID);
+const styles = MyLecturesStyles;
 
 export default class MyLectures extends Component {            
     constructor(props) {
@@ -454,52 +458,3 @@ const mapDispatchToProps = {
 };
 
 // export default connect(mapStateToProps, mapDispatchToProps)(MyLectures);
-
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: colors.extraLightPurple,
-        padding: 11
-    },
-    
-    header: {
-        fontWeight: 'bold',
-        fontSize: 35,
-        color: colors.orange,
-        textAlign: 'center',
-    },
-
-    // pickerContainer: {
-    //     position: 'absolute',
-    //     bottom: 0
-    // },
-
-    deleteAllBtn: {
-        width: '100%',
-        height: 50,
-        marginTop: 10,
-        marginBottom: 20,
-        borderRadius: 10,
-        backgroundColor: colors.red,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    deleteAllBtnText: {
-        color: colors.white,
-        fontSize: 20
-    },
-
-    buttonContainer: {
-        
-    },
-
-    lectures: {
-        marginTop: 10
-    },
-
-    lecture: {
-        marginTop: 10
-    }
-});
