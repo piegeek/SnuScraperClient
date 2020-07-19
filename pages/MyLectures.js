@@ -15,6 +15,13 @@ import SeasonYearPicker from '../components/SeasonYearPicker';
 import HeaderBtn from '../components/HeaderBtn';
 import { createKeyboardAwareNavigator } from 'react-navigation';
 
+import { connect } from 'react-redux';
+
+// Import action creators
+import { setAppStateActive, setAppStateInactive } from '../actions/appState';
+import { addLecture, removeLecture } from '../actions/lectures';
+import { setSeasonYear, pickSeasonYear } from '../actions/seasonYear';
+
 const bugsnag = new Client(config.BUGSNAG_ID);
 
 export default class MyLectures extends Component {            
@@ -431,6 +438,22 @@ export default class MyLectures extends Component {
         };
     };
 }
+
+function mapStateToProps(state) {
+    const { lectures, appState, seasonYear, pickSeasonYear } = state;
+    return { lectures, appState, seasonYear, pickSeasonYear };
+}
+
+const mapDispatchToProps = {
+    setAppStateActive,
+    setAppStateInactive,
+    addLecture,
+    removeLecture,
+    setSeasonYear,
+    pickSeasonYear
+};
+
+// export default connect(mapStateToProps, mapDispatchToProps)(MyLectures);
 
 const styles = StyleSheet.create({
     container: {
