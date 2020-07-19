@@ -20,7 +20,6 @@ export default class HomeLecture extends Component {
         this.getNewStudentNumber = this.getNewStudentNumber.bind(this);
         this.navigateButtonPressed = this.navigateButtonPressed.bind(this);
         this.state = {
-            lectureData: this.props.lectureData,
             loading: false
         };
     }
@@ -61,11 +60,11 @@ export default class HomeLecture extends Component {
     }
 
     deleteButtonPressed() {        
-        this.props.deleteLectures(this.state.lectureData);
+        this.props.deleteLectures(this.props.lectureData);
     }
 
     navigateButtonPressed() {
-        this.props.navigateToLectureInfo(this.state.lectureData);
+        this.props.navigateToLectureInfo(this.props.lectureData);
     }
 
     render() {
@@ -73,10 +72,10 @@ export default class HomeLecture extends Component {
             <View style={styles.mainContainer}>
                 <View style={styles.subContainer}>
                     <Text style={styles.subjectName}>
-                        { this.state.lectureData['교과목명'] }
-                        { (parseInt(this.state.lectureData['강좌번호']) >= 0 && parseInt(this.state.lectureData['강좌번호']) <= 9) 
-                            ? ' (00' + this.state.lectureData['강좌번호'] + ')'
-                            : ' (0' + this.state.lectureData['강좌번호'] + ')'
+                        { this.props.lectureData['교과목명'] }
+                        { (parseInt(this.props.lectureData['강좌번호']) >= 0 && parseInt(this.props.lectureData['강좌번호']) <= 9) 
+                            ? ' (00' + this.props.lectureData['강좌번호'] + ')'
+                            : ' (0' + this.props.lectureData['강좌번호'] + ')'
                         }
                     </Text>                    
                     { this.state.loading                    
@@ -84,7 +83,7 @@ export default class HomeLecture extends Component {
                                 <ActivityIndicator size='large' color={colors.purple}></ActivityIndicator>
                             </View>
                         :   <Text style={styles.studentNumber}>
-                                { this.state.lectureData['수강신청인원'] }/{ this.state.lectureData['정원'].split(' ')[0] }
+                                { this.props.lectureData['수강신청인원'] }/{ this.props.lectureData['정원'].split(' ')[0] }
                             </Text>
                     }
                     <View style={styles.buttonsContainer}>
