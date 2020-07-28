@@ -52,9 +52,9 @@ export default class MyLectures extends Component {
         this.state = {
             lectures: [],
             appState: AppState.currentState,
-            pickSeasonYear: false,
-            season: null,
-            year: null
+            // pickSeasonYear: false,
+            // season: null,
+            // year: null
         };
     }
 
@@ -64,10 +64,10 @@ export default class MyLectures extends Component {
         */
         AppState.addEventListener('change', this.handleAppStateChange);
         // Allow react navigation to use function this.showPickSeasonYear and states season, year
-        this.props.navigation.setParams({
-            showPickSeasonYear: this.showPickSeasonYear,
-        });
-        this.loadSeasonYear();
+        // this.props.navigation.setParams({
+        //     showPickSeasonYear: this.showPickSeasonYear,
+        // });
+        // this.loadSeasonYear();
         this.recoverDataAsync().then(() => {
             this.updateAllLectures();
         });
@@ -417,13 +417,13 @@ export default class MyLectures extends Component {
         )
     }
 
-    // static headerTitle = Platform.OS === 'android' ?
-    //     [
-    //         <Icon name='notifications-active' style={{ color: colors.yellow, fontSize: 30 }}></Icon>,
-    //         <Text style={{ fontWeight: 'bold', fontSize: 22 }}>내 강좌</Text>
-    //     ]
-    //     :
-    //     <Icon name='notifications-active' size={33} style={{ color: colors.yellow }}></Icon>
+    static headerTitle = Platform.OS === 'android' ?
+        [
+            <Icon name='notifications-active' style={{ color: colors.yellow, fontSize: 30 }}></Icon>,
+            <Text style={{ fontWeight: 'bold', fontSize: 22 }}>내 강좌</Text>
+        ]
+        :
+        <Icon name='notifications-active' size={33} style={{ color: colors.yellow }}></Icon>
 
     static headerStyle = Platform.OS === 'android' ?
     {
@@ -437,7 +437,8 @@ export default class MyLectures extends Component {
 
     static navigationOptions = ({ navigation }) => {
         return {
-            headerTitle: () => <HeaderBtn pressHandler={navigation.getParam('showPickSeasonYear')} height={30} text={`${navigation.getParam('year')} ${navigation.getParam('season')}`} icon={<Icon name='arrow-drop-down' size={30} style={{ color: colors.yellow }}></Icon>}></HeaderBtn>,
+            // headerTitle: () => <HeaderBtn pressHandler={navigation.getParam('showPickSeasonYear')} height={30} text={`${navigation.getParam('year')} ${navigation.getParam('season')}`} icon={<Icon name='arrow-drop-down' size={30} style={{ color: colors.yellow }}></Icon>}></HeaderBtn>,
+            headerTitle: () => this.headerTitle,
             headerStyle: this.headerStyle
         };
     };
