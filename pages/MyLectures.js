@@ -15,7 +15,18 @@ import SeasonYearPicker from '../components/SeasonYearPicker';
 import HeaderBtn from '../components/HeaderBtn';
 import { createKeyboardAwareNavigator } from 'react-navigation';
 
+import { connect } from 'react-redux';
+
+// Import action creators
+import { setAppStateActive, setAppStateInactive } from '../actions/appState';
+import { addLecture, removeLecture } from '../actions/lectures';
+import { setSeasonYear, pickSeasonYear } from '../actions/seasonYear';
+
+// Import stylesheet
+import MyLecturesStyles from '../styles/pageStyles/MyLecturesStyles';
+
 const bugsnag = new Client(config.BUGSNAG_ID);
+const styles = MyLecturesStyles;
 
 export default class MyLectures extends Component {            
     constructor(props) {
@@ -41,9 +52,9 @@ export default class MyLectures extends Component {
         this.state = {
             lectures: [],
             appState: AppState.currentState,
-            pickSeasonYear: false,
-            season: null,
-            year: null
+            // pickSeasonYear: false,
+            // season: null,
+            // year: null
         };
     }
 
@@ -53,10 +64,10 @@ export default class MyLectures extends Component {
         */
         AppState.addEventListener('change', this.handleAppStateChange);
         // Allow react navigation to use function this.showPickSeasonYear and states season, year
-        this.props.navigation.setParams({
-            showPickSeasonYear: this.showPickSeasonYear,
-        });
-        this.loadSeasonYear();
+        // this.props.navigation.setParams({
+        //     showPickSeasonYear: this.showPickSeasonYear,
+        // });
+        // this.loadSeasonYear();
         this.recoverDataAsync().then(() => {
             this.updateAllLectures();
         });
@@ -414,13 +425,13 @@ export default class MyLectures extends Component {
         )
     }
 
-    // static headerTitle = Platform.OS === 'android' ?
-    //     [
-    //         <Icon name='notifications-active' style={{ color: colors.yellow, fontSize: 30 }}></Icon>,
-    //         <Text style={{ fontWeight: 'bold', fontSize: 22 }}>내 강좌</Text>
-    //     ]
-    //     :
-    //     <Icon name='notifications-active' size={33} style={{ color: colors.yellow }}></Icon>
+    static headerTitle = Platform.OS === 'android' ?
+        [
+            <Icon name='notifications-active' style={{ color: colors.yellow, fontSize: 30 }}></Icon>,
+            <Text style={{ fontWeight: 'bold', fontSize: 22 }}>내 강좌</Text>
+        ]
+        :
+        <Icon name='notifications-active' size={33} style={{ color: colors.yellow }}></Icon>
 
     static headerStyle = Platform.OS === 'android' ?
     {
@@ -434,57 +445,25 @@ export default class MyLectures extends Component {
 
     static navigationOptions = ({ navigation }) => {
         return {
-            headerTitle: () => <HeaderBtn pressHandler={navigation.getParam('showPickSeasonYear')} height={30} text={`${navigation.getParam('year')} ${navigation.getParam('season')}`} icon={<Icon name='arrow-drop-down' size={30} style={{ color: colors.yellow }}></Icon>}></HeaderBtn>,
+            // headerTitle: () => <HeaderBtn pressHandler={navigation.getParam('showPickSeasonYear')} height={30} text={`${navigation.getParam('year')} ${navigation.getParam('season')}`} icon={<Icon name='arrow-drop-down' size={30} style={{ color: colors.yellow }}></Icon>}></HeaderBtn>,
+            headerTitle: () => this.headerTitle,
             headerStyle: this.headerStyle
         };
     };
 }
 
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: colors.extraLightPurple,
-        padding: 11
-    },
-    
-    header: {
-        fontWeight: 'bold',
-        fontSize: 35,
-        color: colors.orange,
-        textAlign: 'center',
-    },
+function mapStateToProps(state) {
+    const { lectures, appState, seasonYear, pickSeasonYear } = state;
+    return { lectures, appState, seasonYear, pickSeasonYear };
+}
 
-    // pickerContainer: {
-    //     position: 'absolute',
-    //     bottom: 0
-    // },
+const mapDispatchToProps = {
+    setAppStateActive,
+    setAppStateInactive,
+    addLecture,
+    removeLecture,
+    setSeasonYear,
+    pickSeasonYear
+};
 
-    deleteAllBtn: {
-        width: '100%',
-        height: 50,
-        marginTop: 10,
-        marginBottom: 20,
-        borderRadius: 10,
-        backgroundColor: colors.red,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    deleteAllBtnText: {
-        color: colors.white,
-        fontSize: 20
-    },
-
-    buttonContainer: {
-        
-    },
-
-    lectures: {
-        marginTop: 10
-    },
-
-    lecture: {
-        marginTop: 10
-    }
-});
+// export default connect(mapStateToProps, mapDispatchToProps)(MyLectures);
