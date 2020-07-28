@@ -227,7 +227,7 @@ export default class MyLectures extends Component {
     }
 
     storeData() {
-        AsyncStorage.setItem('lectures' + String(this.state.year) + String(this.state.season), JSON.stringify(this.state.lectures))
+        AsyncStorage.setItem('lectures', JSON.stringify(this.state.lectures)) 
         .then(() => console.log('Lectures saved to local storage'))
     }
 
@@ -287,19 +287,11 @@ export default class MyLectures extends Component {
         this.setState({
             season: lecturesSeason,
             year: lecturesYear
-        }, async () => {
+        }, () => {
             this.props.navigation.setParams({
                 season: this.state.season,
                 year: this.state.year
             });
-            
-            // Empty lectures state
-            this.setState({
-                lectures: []
-            });
-
-            // Load lectures for the new state of (season, year)
-            await this.recoverDataAsync();
         });
     }
 
@@ -333,7 +325,7 @@ export default class MyLectures extends Component {
     recoverDataAsync = () => {
         return new Promise(async (res, rej)=> {
             try {
-                const lecturesArr = await AsyncStorage.getItem('lectures' + String(this.state.year) + String(this.state.season));
+                const lecturesArr = await AsyncStorage.getItem('lectures');
                 if (lecturesArr) {
                     this.setState({
                         lectures: JSON.parse(lecturesArr)
