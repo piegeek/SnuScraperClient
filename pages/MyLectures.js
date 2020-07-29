@@ -107,8 +107,26 @@ export default class MyLectures extends Component {
             // Wait for all lectures to update
             await Promise.all(lectureFutures);
 
+            let newLectures = [];
+            let updatedLectureIds = [];
+            
+            // Store lectures that have been updated in the array and store its id separately
+            for (lectureToBeUpdated of lecturesToBeUpdated) {
+                if (lectureToBeUpdated !== undefined) {
+                    newLectures.push(lectureToBeUpdated);
+                    updatedLectureIds.push(lectureToBeUpdated['_id']);
+                }
+            }
+
+            // Add lectures that haven't been updated to the array too
+            for (lecture of this.state.lectures) {
+                if (updatedLectureIds.includes(lecture['_id']) === false) {
+                    newLectures.push(lecture);
+                }
+            }
+
             this.setState({
-                lectures: lecturesToBeUpdated
+                lectures: newLectures 
             });
             this.storeData();
         }
